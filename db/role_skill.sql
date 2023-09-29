@@ -34,12 +34,16 @@ DROP TABLE IF EXISTS `Role_Skill`;
 CREATE TABLE IF NOT EXISTS `Role_Skill` (
   `Role_Name` Varchar(20) NOT NULL,
   `Skill_Name` Varchar(50) NOT NULL,
-  PRIMARY KEY (`Role_Name`, `Skill_Name`)
+  PRIMARY KEY (`Role_Name`, `Skill_Name`),
+  Foreign Key (`Role_Name`) references Role(`Role_Name`),
+  Foreign Key (`Skill_Name`) references Skill(`Skill_Name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 INSERT INTO `Role_Skill`(`Role_Name`, `Skill_Name` ) VALUES
-	('Human_Resource_Manager', 'Human Resource_Leadership_Communication');
+	('Human_Resource_Manager', 'Human Resource'),
+  ('Human_Resource_Manager', 'Leadership')
+  ;
 
 COMMIT;
 

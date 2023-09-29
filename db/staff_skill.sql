@@ -34,7 +34,8 @@ DROP TABLE IF EXISTS `Staff_Skill`;
 CREATE TABLE IF NOT EXISTS `Staff_Skill` (
   `Staff_ID` Integer(20) NOT NULL,
   `Skill_Name` Varchar(20) NOT NULL,
-  Foreign KEY (`Staff_ID`) references Staff(`Staff_ID`),
+  PRIMARY KEY (`Staff_ID`, `Skill_Name`),
+  Foreign Key (`Staff_ID`) references Staff(`Staff_ID`),
   Foreign Key (`Skill_Name`) references Skill(`Skill_Name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
