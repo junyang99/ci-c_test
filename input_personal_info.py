@@ -14,20 +14,24 @@ def main():
     print("Please enter your personal information:")
     
     staff_id = input("Staff ID: ")
-    
     staff_fname = input("First Name: ")
+    staff_lname = input("Last Name: ")
+    department = input("Department: ")
+    email = input("Email Address: ")
+    
+    # Check for missing data in required fields
+    if not all([staff_id, staff_fname, staff_lname, department, email]):
+        print("Please fill in all required fields.")
+        return
+
     if not validate_name(staff_fname):
         print("Invalid First Name. Please enter a valid name.")
         return
     
-    staff_lname = input("Last Name: ")
     if not validate_name(staff_lname):
         print("Invalid Last Name. Please enter a valid name.")
         return
     
-    department = input("Department: ")
-    
-    email = input("Email Address: ")
     if not validate_email(email):
         print("Invalid email address. Please enter a valid email.")
         return
