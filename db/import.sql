@@ -54,3 +54,26 @@ CREATE TABLE IF NOT EXISTS Staff_Skill (
     FOREIGN KEY (Staff_ID) REFERENCES Staff(Staff_ID),
     FOREIGN KEY (Skill_Name) REFERENCES Skill(Skill_Name)
 );
+
+-- Create the Open_Position table
+CREATE TABLE IF NOT EXISTS Open_Position (
+    Position_ID INT AUTO_INCREMENT,
+    Role_Name VARCHAR(20) NOT NULL,
+    Starting_Date DATE NOT NULL,
+    Ending_Date DATE NOT NULL,
+    PRIMARY KEY (Position_ID),
+    FOREIGN KEY (Role_Name) REFERENCES Role(Role_Name)
+);
+
+-- Create the Application table
+CREATE TABLE IF NOT EXISTS Application (
+    Application_ID INT AUTO_INCREMENT,
+    Position_ID INT NOT NULL,
+    Staff_ID INT NOT NULL,
+    Application_Date DATE NOT NULL,
+    Cover_Letter TEXT,
+    Application_Status INT NOT NULL,
+    PRIMARY KEY (Application_ID),
+    FOREIGN KEY (Staff_ID) REFERENCES Staff(Staff_ID),
+    FOREIGN KEY (Position_ID) REFERENCES Open_Position(Position_ID)
+);
