@@ -10,7 +10,8 @@ USE `HR Portal`;
 -- Create the Role table
 CREATE TABLE IF NOT EXISTS Role (
     Role_Name VARCHAR(20) PRIMARY KEY,
-    Role_Desc TEXT
+    Role_Desc TEXT,
+    Department VARCHAR(50)
 );
 
 -- Create the Skill table
