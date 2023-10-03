@@ -80,10 +80,10 @@ def get_open_roles_for_dept():
         'message': 'No departments selected for the filter.'
     }), 400
 
-# TO DO -- need to do combined filter for dept + skill 
-@app.route('/rolelisting/filtered', methods=['GET'])
-def get_filted_roles():
-    pass
+# # TO DO -- need to do combined filter for dept + skill 
+# @app.route('/rolelisting/filtered', methods=['GET'])
+# def get_filted_roles():
+#     pass
 
 # search function 
 @app.route('/rolelisting/search', methods=['GET'])
