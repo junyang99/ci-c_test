@@ -4,13 +4,13 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import relationship
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+mysqlconnector://root@localhost:3306/SPM"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+mysqlconnector://root@localhost:3306/hr portal"
 db = SQLAlchemy(app)
 
 class Role(db.Model):
     role_name = db.Column(db.String(20), primary_key=True)
     role_desc = db.Column(db.Text, nullable=False)
-    role_dept = db.Column(db.String(20), nullable=False)
+    department = db.Column(db.String(20), nullable=False)
     skills = db.relationship('RoleSkill', backref='role', lazy=True)
 
 class RoleSkill(db.Model):
@@ -20,10 +20,11 @@ class RoleSkill(db.Model):
 def field_check(field):
     min_length = 2
     if isinstance(field, list):
-        if not field or all(item.strip() == '' for item in field):
-            return "Missing fields"
-        elif all(len(item) <= min_length for item in field):
-            return "Need to input at least "+ str(min_length) +" letters for each skill"
+        print("is list")
+        if all(len(item.strip()) >= min_length for item in field):
+            return None  # No validation error
+        else:
+            return "Each skill should have at least "+ str(min_length) +" letters"
 
     else:
         if not field or field.strip() == '':
@@ -39,7 +40,7 @@ def create_role():
             data = request.get_json()
             title = data.get('role_name')
             description = data.get('description')
-            department = data.get('department')
+            department_name = data.get('department')
             skills = data.get('skills')
 
             # Check if title is unique
@@ -59,7 +60,7 @@ def create_role():
             if description_error:
                 fields_error['description'] = description_error
 
-            department_error = field_check(department)
+            department_error = field_check(department_name)
             if department_error:
                 fields_error['department'] = department_error
 
@@ -80,7 +81,7 @@ def create_role():
                 }), 400
 
             # Create the role listing
-            role = Role(role_name=title, role_desc=description, role_dept=department)
+            role = Role(role_name=title, role_desc=description, department=department_name)
             db.session.add(role)
 
             for skill in skills:
