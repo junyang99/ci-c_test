@@ -1,0 +1,60 @@
+/* GENERAL STYLES */
+
+body {
+    background-color: #F5F5F7;
+    margin: 0;
+}
+
+@font-face {
+    font-family: 'text-regular';
+    src: url('assets/fonts/SF-Pro-Text-Regular.otf');
+}
+
+@font-face {
+    font-family: 'text-medium';
+    src: url('assets/fonts/SF-Pro-Text-Medium.otf');
+}
+
+@font-face {
+    font-family: 'text-bold';
+    src: url('assets/fonts/SF-Pro-Text-Bold.otf');
+}
+
+@font-face {
+    font-family: 'display-semibold';
+    src: url('assets/fonts/SF-Pro-Display-Semibold.otf');
+}
+
+@font-face {
+    font-family: 'display-bold';
+    src: url('assets/fonts/SF-Pro-Display-Bold.otf');
+}
+
+
+
+/* NAV STYLES */
+
+#logo {
+    width: 74px;
+    height: auto;
+}
+
+ul {
+    background-color: rgba(0, 0, 0, 0.73);
+    width: 1920px;
+    height: 65px;
+    margin: 0;
+    vertical-align: middle;
+}
+
+ul li {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 54px;
+}
+
+ul li a {
+    color: #FFFFFF;
+    font-family: text-medium;
+    text-decoration: none;
+}
