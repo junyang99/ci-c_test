@@ -69,5 +69,94 @@ def get_all():
         'message': 'There are is no Open Position'
     }
 
+# get open roles based on selected department
+@app.route('/Open_Position/Dept', methods=['GET'])
+def get_open_roles_for_dept():
+    department_names = request.get_json()['departments'] # input format -- {"departments": [dept1, dept2]}
+
+    if department_names:
+        response = get_all()
+
+        if response.status_code == 200:
+            filtered_open_positions = []
+
+            open_positions = response.get_json()['data']['Open Position']
+
+            for opening in open_positions:
+                opening_role_name = opening['Role_Name'] # get the role name of the opening
+                opening_role_info = Role.query.filter_by(Role_Name = opening_role_name).first() # match Role_Name in Role table to get the other data
+
+                if opening_role_info.Department in department_names: # check if the opening is part of the departments selected in the filter
+                    filtered_open_positions.append(opening)
+
+            if filtered_open_positions:
+                return jsonify({
+                    'code': 200,
+                    'data':
+                        {
+                            'open positions': [listing for listing in filtered_open_positions]
+                        }
+                })
+        
+            return jsonify({
+                'code': 400,
+                'message': 'No matching roles are open for application based on your selection.'
+            }), 400
+        
+        return jsonify({
+                'code': 400,
+                'message': 'There are is no Open Position.'
+            }), 400
+
+    return jsonify({
+        'code': 400,
+        'message': 'No departments selected for the filter.'
+    }), 400
+
+# search function 
+@app.route('/Open_Position/Search', methods=['GET'])
+def search_for_roles():
+    keyword = request.get_json()['search_input'] # input format -- {"search_input": keyword}
+    
+    if keyword:
+        response = get_all()
+
+        if response.status_code == 200:
+            matching_open_positions = []
+
+            open_positions = response.get_json()['data']['Open Position']
+
+            for opening in open_positions:
+                opening_role_name = opening['Role_Name'] # get the role name of the opening
+                opening_role_info = Role.query.filter_by(Role_Name = opening_role_name).first()
+
+                if keyword.lower() in opening_role_name.lower() or keyword.lower() in opening_role_info.Role_Desc.lower():
+                    matching_open_positions.append(opening)
+
+                
+            if matching_open_positions:
+                return jsonify({
+                    'code': 200,
+                    'data':
+                        {
+                            'open positions': [listing for listing in matching_open_positions]
+                        }
+                })
+        
+            return jsonify({
+                'code': 400,
+                'message': 'No matching roles are open for application based on your search.'
+            }), 400
+        
+        return jsonify({
+                'code': 400,
+                'message': 'There are is no Open Position.'
+            }), 400
+
+    return jsonify({
+        'code': 400,
+        'message': 'No keywords entered in search box.'
+    }), 400
+
 if __name__ == '__main__':
     app.run(port=5006, debug=True)
