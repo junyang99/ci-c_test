@@ -65,7 +65,7 @@ class Staff(db.Model):
     Country = db.Column(db.String(50), nullable=False)
     Email = db.Column(db.String(50), nullable=False)
     Access_ID = db.Column(db.Integer, db.ForeignKey('Access_Control.Access_ID'), nullable=False)  # Foreign key reference
-    access_control = db.relationship(Access_Control, backref='staff', lazy=True)
+    # access_control = db.relationship(Access_Control, backref='staff', lazy=True)
 
     def __init__(self, Staff_ID, Staff_FName, Staff_LName, Dept, Country, Email, Access_ID):
         self.Staff_ID = Staff_ID
@@ -94,7 +94,7 @@ class Application(db.Model):
     Position_ID = db.Column(db.Integer, db.ForeignKey('Open_Position.Position_ID'), nullable=False)
     Staff_ID = db.Column(db.Integer, db.ForeignKey('Staff.Staff_ID'), nullable=False)
     Application_Date = db.Column(db.Date, nullable=False)
-    Cover_Letter = db.Column(db.String(10000), nullable=False)
+    Cover_Letter = db.Column(db.String, nullable=False)
     Application_Status = db.Column(db.Integer, nullable=False)
 
     def __init__(self, Application_ID, Position_ID, Staff_ID, Application_Date, Cover_Letter, Application_Status):
