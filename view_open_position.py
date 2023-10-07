@@ -11,11 +11,27 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
 
+class Role(db.Model):
+    __tablename__ = 'Role'
+
+    Role_Name = db.Column(db.String(20), nullable=False, primary_key=True)
+    Role_Desc = db.Column(db.String(100), nullable=False)
+
+    def __init__(self, Role_Name, Role_Desc):
+        self.Role_Name = Role_Name
+        self.Role_Desc = Role_Desc
+
+    def json(self):
+        return {
+            'Role_Name': self.Role_Name,
+            'Role_Desc': self.Role_Desc,
+        }
+
 class Open_Position(db.Model):
     __tablename__ = 'Open_Position'
 
     Position_ID = db.Column(db.Integer, nullable=False, primary_key=True)
-    Role_Name = db.Column(db.String(20), nullable=False)
+    Role_Name = db.Column(db.String(20),db.ForeignKey('Role.Role_Name'), nullable=False)
     Starting_Date = db.Column(db.Date, nullable=False)
     Ending_Date = db.Column(db.Date, nullable=False)
 
@@ -51,4 +67,4 @@ def get_all():
     }
 
 if __name__ == '__main__':
-    app.run(port=5010, debug=True)
+    app.run(port=5006, debug=True)

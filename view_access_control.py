@@ -50,4 +50,4 @@ def get_all():
 
 
 if __name__ == '__main__':
-    app.run(port=5002, debug=True)
+    app.run(port=5005, debug=True)
