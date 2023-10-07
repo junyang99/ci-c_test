@@ -1,4 +1,25 @@
+from flask import Flask, render_template, request, redirect, url_for, flash
 import re
+import mysql.connector
+
+# Database connection details
+db_config = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': '',
+    'database': 'hr portal'
+}
+
+# Create a connection to the database
+try:
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+except mysql.connector.Error as err:
+    print(f"Error: {err}")
+    conn.close()
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Change this to a secret key for session management
 
 def validate_name(name):
     if not re.match(r'^[A-Za-z\'\s-]+$', name):
@@ -10,33 +31,46 @@ def validate_email(email):
         return False
     return True
 
-def main():
-    print("Please enter your personal information:")
-    
-    staff_id = input("Staff ID: ")
-    staff_fname = input("First Name: ")
-    staff_lname = input("Last Name: ")
-    department = input("Department: ")
-    email = input("Email Address: ")
-    
-    # Check for missing data in required fields
-    if not all([staff_id, staff_fname, staff_lname, department, email]):
-        print("Please fill in all required fields.")
-        return
+@app.route('/')
+def index():
+    return render_template('index.html')
 
+@app.route('/submit', methods=['POST'])
+def submit():
+    staff_id = request.form.get('staff_id')
+    staff_fname = request.form.get('staff_fname')
+    staff_lname = request.form.get('staff_lname')
+    department = request.form.get('department')
+    email = request.form.get('email')
+    
+    if not all([staff_id, staff_fname, staff_lname, department, email]):
+        flash("Please fill in all required fields.")
+        return redirect(url_for('index'))
+    
     if not validate_name(staff_fname):
-        print("Invalid First Name. Please enter a valid name.")
-        return
+        flash("Invalid First Name. Please enter a valid name.")
+        return redirect(url_for('index'))
     
     if not validate_name(staff_lname):
-        print("Invalid Last Name. Please enter a valid name.")
-        return
+        flash("Invalid Last Name. Please enter a valid name.")
+        return redirect(url_for('index'))
     
     if not validate_email(email):
-        print("Invalid email address. Please enter a valid email.")
-        return
+        flash("Invalid email address. Please enter a valid email.")
+        return redirect(url_for('index'))
     
-    print("Thank you! Your information has been successfully submitted.")
+    flash("Thank you! Your information has been successfully submitted.")
+    # Insert data into the staff table
+    cursor.execute('''
+        INSERT INTO staff (Staff_ID, Staff_FName, Staff_LName, Dept, Country, Email, Access_ID)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+    ''', (staff_id, staff_fname, staff_lname, department, "Singapore", email, "2"))
+    conn.commit()
 
+    flash("Thank you! Your information has been successfully submitted.")
+    return redirect(url_for('index'))
+    
 if __name__ == "__main__":
-    main()
+    app.run(debug=True)
+
+
