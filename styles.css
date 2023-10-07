@@ -145,7 +145,7 @@ ul li a {
 /* OVERALL-LISTINGS: CARD */
 
 .listing-card {
-    width: 515px;
+    /* width: 420px; */
     /* height: 371px; */
     background-color: var(--default-white);
     border-radius: 18px;
