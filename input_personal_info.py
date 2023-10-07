@@ -26,6 +26,7 @@ staff_ids = cursor.fetchall()
 # print(staff_ids)
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Change this to a secret key for session management
 
 def validate_name(name):
     if not re.match(r'^[A-Za-z\'\s-]+$', name):
