@@ -5,13 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
+    <!-- link to external CSS -->
     <link rel="stylesheet" type="text/css" href="styles.css">
+
+    <!-- link to bootstrap library -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body style="background-color: #F5F5F7;">
     <header>
         <nav>
-            <ul>
+            <ul style="margin-bottom: 0;">
                 <li> <img src="assets/logo.png" class="logo"> </li>
                 <li class="nav-link"> <a href="#"> Role Listing </a> </li>
                 <li class="nav-link"> <a href="#"> My Applications </a> </li>
@@ -27,5 +32,29 @@
             </ul>
         </nav>
     </header>
+
+    <div style="padding: 50px;">
+
+        <div class="overall-listings">
+            <p class="page-heading">All Role Listings.</p>
+            <p class="page-subheading">Browse all available Role Listings.</p>
+        </div>
+
+        <br>
+        <br>
+        <br>
+
+        <div class="listing-card">
+            <p class="card-heading">Account Manager</p>
+            <p class="card-subheading">Sales</p>
+
+            <p class="card-deadline">Application Deadline: 15 October 2023</p>
+            <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
+            <button class="card-find-btn">Find Out More</button>
+            <button class="card-apply-btn">APPLY</button>
+        </div>
+
+    </div>
 </body>
 </html>
