@@ -18,8 +18,14 @@ except mysql.connector.Error as err:
     print(f"Error: {err}")
     conn.close()
 
+# Execute a SELECT statement to retrieve data from the 'email' column
+cursor.execute("SELECT Staff_ID FROM staff")
+
+# Fetch all rows of data from the executed query
+staff_ids = cursor.fetchall()
+# print(staff_ids)
+
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Change this to a secret key for session management
 
 def validate_name(name):
     if not re.match(r'^[A-Za-z\'\s-]+$', name):
@@ -33,7 +39,16 @@ def validate_email(email):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    # Prepopulate sample data
+    sample_data = {
+        'staff_id': '123',
+        'staff_fname': 'John',
+        'staff_lname': 'Doe',
+        'department': 'HR',
+        'email': 'johndoe@example.com',
+    }
+    
+    return render_template('index.html', sample_data=sample_data)
 
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -42,8 +57,9 @@ def submit():
     staff_lname = request.form.get('staff_lname')
     department = request.form.get('department')
     email = request.form.get('email')
+    cover_letter = request.form.get('cover_letter')
     
-    if not all([staff_id, staff_fname, staff_lname, department, email]):
+    if not all([staff_id, staff_fname, staff_lname, department, email, cover_letter]):
         flash("Please fill in all required fields.")
         return redirect(url_for('index'))
     
@@ -59,16 +75,23 @@ def submit():
         flash("Invalid email address. Please enter a valid email.")
         return redirect(url_for('index'))
     
-    flash("Thank you! Your information has been successfully submitted.")
-    # Insert data into the staff table
-    cursor.execute('''
-        INSERT INTO staff (Staff_ID, Staff_FName, Staff_LName, Dept, Country, Email, Access_ID)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
-    ''', (staff_id, staff_fname, staff_lname, department, "Singapore", email, "2"))
-    conn.commit()
+    # Insert data into the application table, including the cover letter field
+    try:
+        cursor.execute('''
+            INSERT INTO application
+            (Application_ID, Position_ID, Staff_ID, Application_Date, Cover_Letter, Application_Status)
+            VALUES (1, 1, %s, NOW(), %s, 1)
+        ''', (staff_id, cover_letter))
+        conn.commit()
 
-    flash("Thank you! Your information has been successfully submitted.")
+        flash("Thank you! Your application has been submitted.")
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        flash(f"Error: {err}")
+        flash("An error occurred while submitting your application.")
+
     return redirect(url_for('index'))
+
     
 if __name__ == "__main__":
     app.run(debug=True)
