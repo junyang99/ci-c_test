@@ -2,7 +2,7 @@
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from access_control import Access_Control
+from view_access_control import Access_Control
 
 app = Flask(__name__)
 
