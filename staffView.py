@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/role'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/hr portal'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -15,18 +15,18 @@ class Role(db.Model):
 
     Role_Name = db.Column(db.String(20), nullable=False, primary_key=True)
     Role_Desc = db.Column(db.String(100), nullable=False)
-    Dept = db.Column(db.String(100), nullable=False)
+    Department = db.Column(db.String(100), nullable=False)
 
-    def __init__(self, Role_Name, Role_Desc, Dept):
+    def __init__(self, Role_Name, Role_Desc, Department):
         self.Role_Name = Role_Name
         self.Role_Desc = Role_Desc
-        self.Dept = Dept
+        self.Department = Department
 
     def json(self):
         return {
             'Role_Name': self.Role_Name,
             'Role_Desc': self.Role_Desc,
-            'Dept' : self.Dept
+            'Dept' : self.Department
         }
     
 # get all open roles
@@ -52,13 +52,13 @@ def get_open_roles():
 @app.route('/rolelisting/dept', methods=['GET'])
 def get_open_roles_for_dept():
     department_names = request.get_json()['departments'] # input format -- {"departments": [dept1, dept2]}
-    print(department_names)
+    # print(department_names)
 
     if department_names:
         open_roles_all = []
 
         for departmentName in department_names:
-            open_roles_filtered_dept = Role.query.filter_by(Dept = departmentName).all()
+            open_roles_filtered_dept = Role.query.filter_by(Department = departmentName).all()
             if open_roles_filtered_dept:
                 open_roles_all.extend(open_roles_filtered_dept)
         
@@ -79,11 +79,6 @@ def get_open_roles_for_dept():
         'code': 400,
         'message': 'No departments selected for the filter.'
     }), 400
-
-# # TO DO -- need to do combined filter for dept + skill 
-# @app.route('/rolelisting/filtered', methods=['GET'])
-# def get_filted_roles():
-#     pass
 
 # search function 
 @app.route('/rolelisting/search', methods=['GET'])
