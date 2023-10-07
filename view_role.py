@@ -16,18 +16,18 @@ class Role(db.Model):
 
     Role_Name = db.Column(db.String(20), nullable=False, primary_key=True)
     Role_Desc = db.Column(db.String(100), nullable=False)
-    # Dept = db.Column(db.String(100), nullable=False)
+    Department = db.Column(db.String(100), nullable=False)
 
-    def __init__(self, Role_Name, Role_Desc):
+    def __init__(self, Role_Name, Role_Desc, Department):
         self.Role_Name = Role_Name
         self.Role_Desc = Role_Desc
-        # self.Dept = Dept
+        self.Department = Department
 
     def json(self):
         return {
             'Role_Name': self.Role_Name,
             'Role_Desc': self.Role_Desc,
-            # 'Dept' : self.Dept
+            'Department' : self.Department
         }
 
 
@@ -44,7 +44,7 @@ def get_all():
         )
     return {
         'code': 400,
-        'message': 'There are no available rewards'
+        'message': 'There are no available roles'
     }
 
 

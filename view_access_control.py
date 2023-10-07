@@ -39,13 +39,13 @@ def get_all():
         return jsonify({
             'code': 200,
             'data': {
-                'Role': [Access_Control.json() for Access_Control in Access_ControlList]
+                'Access': [Access_Control.json() for Access_Control in Access_ControlList]
             }
         }
         )
     return {
         'code': 400,
-        'message': 'There are no available Access'
+        'message': 'There are no available access control'
     }
 
 

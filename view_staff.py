@@ -19,8 +19,6 @@ class Access_Control(db.Model):
     Access_ID = db.Column(db.Integer, nullable=False, primary_key=True)
     Access_Control_Name = db.Column(db.String(20), nullable=False)
     
-    # Define a back-reference from Staff to Access_Control
-    # staff = db.relationship('Staff', backref='access_control', lazy=True)
 
     def __init__(self, Access_ID , Access_Control_Name):
         self.Access_ID= Access_ID

@@ -123,7 +123,7 @@ def get_all():
         return jsonify({
             'code': 200,
             'data': {
-                'rewards': [Application.json() for Application in ApplicationList]
+                'Application': [Application.json() for Application in ApplicationList]
             }
         }
         )

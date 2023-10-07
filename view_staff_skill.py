@@ -72,18 +72,15 @@ class Skill(db.Model):
 
     Skill_Name = db.Column(db.String(50), nullable=False, primary_key=True)
     Skill_Desc = db.Column(db.String, nullable=False)
-    # Dept = db.Column(db.String(100), nullable=False)
 
     def __init__(self, Skill_Name, Skill_Desc):
         self.Skill_Name = Skill_Name
         self.Skill_Desc = Skill_Desc
-        # self.Dept = Dept
 
     def json(self):
         return {
             'Skill_Name': self.Skill_Name,
             'Skill_Desc': self.Skill_Desc
-            # 'Dept' : self.Dept
         }
 
 
@@ -113,13 +110,13 @@ def get_all():
         return jsonify({
             'code': 200,
             'data': {
-                'rewards': [Staff_Skill.json() for Staff_Skill in Staff_SkillList]
+                'Staff-Skill': [Staff_Skill.json() for Staff_Skill in Staff_SkillList]
             }
         }
         )
     return {
         'code': 400,
-        'message': 'There is no records of applicant'
+        'message': 'There is no records of Staff skill'
     }
 
 
