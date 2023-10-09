@@ -2,10 +2,18 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import relationship
+from datetime import datetime
+from sqlalchemy import and_
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+mysqlconnector://root@localhost:3306/hr portal"
 db = SQLAlchemy(app)
+
+#data json:
+# {      "department": "banana",
+#        "description": "banana",
+#        "role_name": "banana",
+#        "skills": ["python", "java", "c++"]   }
 
 class Role(db.Model):
     role_name = db.Column(db.String(20), primary_key=True)
@@ -16,6 +24,11 @@ class Role(db.Model):
 class RoleSkill(db.Model):
     role_name = db.Column(db.String(20), db.ForeignKey('role.role_name'), primary_key=True)
     skill_name = db.Column(db.String(50), primary_key=True)
+
+class Open_position(db.Model):
+    Role_Name = db.Column(db.String(20), db.ForeignKey('role.role_name'), primary_key=True)
+    Starting_Date = db.Column(db.Date, nullable=False)
+    Ending_Date = db.Column(db.Date, nullable=False)
 
 def field_check(field):
     min_length = 2
@@ -115,11 +128,162 @@ def create_role():
 
 @app.route('/HR/role_admin', methods=['GET'])
 def get_role():
-    pass
+
+    # Get query parameters from the URL
+    role_name_query = request.args.get('role_name')
+    department_query = request.args.get('department')
+    sort_by = request.args.get('sort_by')
+
+    # Query roles with optional filtering and sorting
+    #example:
+    #http://localhost:5000/HR/role_admin?role_name=YourRoleName&department=YourDepartment7sort_by=role_name
+    
+    #Create the base query
+    roles_query = Role.query
+
+    # Create separate filter conditions for role_name and department
+    filters = []
+
+    if role_name_query:
+        filters.append(Role.role_name.like(f'%{role_name_query}%'))
+
+    if department_query:
+        filters.append(Role.department.like(f'%{department_query}%'))
+
+    # Combine filter conditions using 'and_' to ensure both filters are applied
+    if filters:
+        roles_query = roles_query.filter(and_(*filters))
+
+    if sort_by:
+        if sort_by == 'role_name':
+            roles_query = roles_query.order_by(Role.role_name)
+        elif sort_by == 'department':
+            roles_query = roles_query.order_by(Role.department)
+
+    roles = roles_query.all()
+
+    if not roles:  # Check if the list is empty
+        # Return an error response indicating no data found
+        return jsonify({'error': 'No roles found matching the criteria'}), 404
+
+    # roles = roles_query.all()
+    role_data = []
+    
+    for role in roles:
+        status = "inactive"
+        start_date = "null"
+        end_date = "null"
+
+        open_position = Open_position.query.filter_by(Role_Name=role.role_name).all()
+
+        #check if there is an open position and whether is has a date - set status to active if date has not passed
+        if (open_position):
+            start_date = open_position[0].Starting_Date
+            end_date = open_position[0].Ending_Date
+            if end_date > datetime.now().date():
+                status = "active"
+
+        #get all skills for each role
+        skills = [skill.skill_name for skill in role.skills]
+
+        #append all roles into roles_data list
+        role_data.append({
+            'department': role.department,
+            'skills': skills,
+            'role_name': role.role_name,
+            'start_date': start_date,
+            'end_date': end_date,
+            'status': status
+        })
+    return jsonify({'roles': role_data})
 
 @app.route('/HR/role_admin', methods=['PUT'])
 def update_role():
-    pass
+    if request.is_json:
+        try:
+            data = request.get_json()
+            title = data.get('role_name')
+            description = data.get('description')
+            department_name = data.get('department')
+            skills = data.get('skills')
+
+            fields_error = {}
+
+            title_error = field_check(title)
+            if title_error:
+                fields_error['role_name'] = title_error
+
+            description_error = field_check(description)
+            if description_error:
+                fields_error['description'] = description_error
+
+            department_error = field_check(department_name)
+            if department_error:
+                fields_error['department'] = department_error
+
+            if isinstance(skills, list):
+                skills_error = field_check(skills)
+                if skills_error:
+                    fields_error['skills'] = skills_error
+            else:
+                fields_error['skills'] = "Skills should be a list"
+
+            # Check if any field is missing
+            if fields_error:
+                return jsonify({
+                    'message': 'Required fields are missing or invalid',
+                    'data': fields_error
+                }), 400
+
+            role = Role.query.filter_by(role_name=title).first()
+
+            if role:
+            # Update the role data with the new values
+                if 'description' in data:
+                    role.role_desc = description
+
+                if 'department' in data:
+                    role.department = department_name
+                
+                if 'skills' in data:
+                    # Delete all existing skills
+                    for skill in role.skills:
+                        db.session.delete(skill)
+
+                    # Add new skills
+                    for skill in skills:
+                        role_skill = RoleSkill(role_name=title, skill_name=skill)
+                        db.session.add(role_skill)
+
+                # Commit the changes to the database
+                db.session.commit()
+
+                skills = [skill.skill_name for skill in role.skills]
+
+                return jsonify({
+                    'message': 'Role updated successfully',
+                    'data': {
+                        'role_name': role.role_name,
+                        'role_desc': role.role_desc,
+                        'department': role.department,
+                        'skills': skills
+                    }}), 200
+            else:
+                return jsonify({'message': 'Role not found'}), 404
+
+        except Exception as e:
+            print(str(e))
+
+            return jsonify({
+                "code": 500,
+                "message": "internal error: " + str(e)
+            }), 500
+        
+    # if reached here, not a JSON request.
+    return jsonify({
+        "code": 400,
+        "message": "Please use a valid json request"
+    }), 400
 
 if __name__ == '__main__':
     app.run(port = 5000, debug=True)
