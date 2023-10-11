@@ -1,0 +1,21 @@
+table {
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+
+th {
+    font-family: text-medium;
+    color: var(--table-header);
+}
+
+td {
+    font-family: text-regular;
+    color: var(--table-data);
+}
+
+.table-status {}
+
+.table-actions {
+    width: 25px;
+    height: auto;
+}

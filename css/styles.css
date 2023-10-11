@@ -55,6 +55,10 @@ body {
     --application-skills: rgba(0,122, 255, 0.25);
     --application-submit: #4C2719;
     --application-delete: #810101;
+
+    --table-header: #6B7280;
+    --table-data: #111827;
+    --table-outline: #D9D9D9;
     
     --hr-actions: #FF3864;
 }
