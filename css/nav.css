@@ -43,6 +43,11 @@ ul li a {
 .nav-link {
     position: relative;
     color: #FFFFFF;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: #FFFFFF;
 }
 
 .nav-link::after {
