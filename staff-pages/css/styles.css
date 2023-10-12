@@ -6,32 +6,32 @@ body {
 
 @font-face {
     font-family: 'text-regular';
-    src: url('../assets/fonts/SF-Pro-Text-Regular.otf');
+    src: url('../../assets/fonts/SF-Pro-Text-Regular.otf');
 }
 
 @font-face {
     font-family: 'text-medium';
-    src: url('../assets/fonts/SF-Pro-Text-Medium.otf');
+    src: url('../../assets/fonts/SF-Pro-Text-Medium.otf');
 }
 
 @font-face {
     font-family: 'text-bold';
-    src: url('../assets/fonts/SF-Pro-Text-Bold.otf');
+    src: url('../../assets/fonts/SF-Pro-Text-Bold.otf');
 }
 
 @font-face {
     font-family: 'display-regular';
-    src: url('../assets/fonts/SF-Pro-Display-Regular.otf');
+    src: url('../../assets/fonts/SF-Pro-Display-Regular.otf');
 }
 
 @font-face {
     font-family: 'display-semibold';
-    src: url('../assets/fonts/SF-Pro-Display-Semibold.otf');
+    src: url('../../assets/fonts/SF-Pro-Display-Semibold.otf');
 }
 
 @font-face {
     font-family: 'display-bold';
-    src: url('../assets/fonts/SF-Pro-Display-Bold.otf');
+    src: url('../../assets/fonts/SF-Pro-Display-Bold.otf');
 }
 
 :root {
