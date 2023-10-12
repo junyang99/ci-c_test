@@ -87,7 +87,6 @@ img {
 .right-align-btn {
     text-align: right;
     vertical-align: middle;
-    /* margin-right: 15px; */
     display: flex;
 }
 
