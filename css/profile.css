@@ -1,0 +1,25 @@
+#edit-btn {
+    font-family: text-bold;
+    color: var(--default-white);
+    font-size: 14px;
+    padding: 8px 22px;
+    border-radius: 980px;
+    margin-bottom: 0;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    width: fit-content;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    background-color: var(--staff-actions);
+}
+
+.application-btn {
+
+    width: fit-content;
+    margin-right: 15px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
