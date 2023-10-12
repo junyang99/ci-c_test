@@ -15,7 +15,7 @@
     color: var(--table-data);
 }
 
-.table.table-striped tbody tr td.table-status {
+/* .table.table-striped tbody tr td.table-status {
     display: inline-block;
     background-color: var(--status-pending);
     border-radius: 980px;
@@ -23,6 +23,13 @@
     text-align: center;
     margin-top: 15px;
     margin-left: 17px;
+} */
+
+.table-status {
+    background-color: var(--status-pending);
+    border-radius: 980px;
+    padding: 8px 22px;
+    text-align: center;
 }
 
 .table-actions {
