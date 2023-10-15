@@ -77,7 +77,7 @@ class Staff_Skill(db.Model):
     def json(self):
         return {
             'Staff_ID': self.Staff_ID,
-            'Skill_Desc': self.Skill_Name
+            'Skill_Name': self.Skill_Name
         }
 
 
