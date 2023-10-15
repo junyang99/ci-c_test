@@ -3,6 +3,7 @@ import os
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from invokes import invoke_http
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/HR Portal'  # Adjust the database name here
@@ -10,6 +11,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 CORS(app)
+
+viewStaffSkillURL = "http://localhost:5012/Staff_Skill"
 
 class Role(db.Model):
     __tablename__ = 'Role'
@@ -71,22 +74,32 @@ class Role_Skill(db.Model):
         }
     
 # specific role listings
-@app.route('/Open_Position/Role_Listing', methods=['GET'])
+@app.route('/Role_Listing', methods=['GET'])
 def get_role_listing():
     position_id = request.get_json()['position_id'] # input format -- {"position_id": position_id}
 
     if position_id:
         # get row from Open_Position table
+        # can get Role_Name (1) from here
         selected_role_listing = Open_Position.query.filter_by(Position_ID = position_id).first()
 
         # use Role_Name from Open_Position table to match with Role_Name in Role table
-        # Role table -> Role_Desc, Department
+        # Role table -> Role_Desc (2), Department (3)
         selected_role_info = Role.query.filter_by(Role_Name = selected_role_listing.Role_Name).first()
 
         # use Role Name from Open_Position table to match with Role_Name in Role_Skill table
-        selected_skill_info = Role_Skill.filter_by(Role_Name = selected_role_listing.Role_Name).all()
+        # get required skills (4) for the selected role listing
+        selected_skill_info = Role_Skill.query.filter_by(Role_Name = selected_role_listing.Role_Name).all()
 
-        # calculate Role-Skill Match
+        # get Staff's current skills (5) from Staff_Skill table 
+        staff_skill = invoke_http(viewStaffSkillURL, method='GET') # this function is using get_all to return all staff skills in the table; not skills of a specific staff
+
+        # return Role-Skill Match (6)
+        def get_role_skill_match():
+            # should use selected_skill_info and staff_skill to calculate
+            return 70 # need to change this to actual function
+        
+        role_skill_match = get_role_skill_match()
 
         if selected_role_info and selected_skill_info:
             return jsonify({
@@ -96,8 +109,9 @@ def get_role_listing():
                         'Role_Name': selected_role_listing.Role_Name,
                         'Role_Desc': selected_role_info.Role_Desc,
                         'Department': selected_role_info.Department,
-                        'Skills': [Skill.json() for Skill in selected_skill_info],
-                        'Role-Skill Match': 0.0 # edit this
+                        'Required Skills for Role': [roleSkill.json() for roleSkill in selected_skill_info],
+                        'Staff Skills': [staff_skill],
+                        'Role-Skill Match': role_skill_match
                     }
             })
         
