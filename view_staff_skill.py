@@ -119,6 +119,24 @@ def get_all():
         'message': 'There is no records of Staff skill'
     }
 
+# function to get specific staff skill
+@app.route('/Staff_Skill/<int:staff_id>')
+def get_staff_skills(staff_id):
+    staff_skills = Staff_Skill.query.filter_by(Staff_ID=staff_id).all()
+    if staff_skills:
+        return jsonify({
+            'code': 200,
+            'data': {
+                'Staff-Skill': [staff_skill.json() for staff_skill in staff_skills]
+            }
+        })
+    return {
+        'code': 400,
+        'message': 'No skills found for staff with staff_id ' + str(staff_id)
+    }
+
+
+
 
 if __name__ == '__main__':
     app.run(port=5012, debug=True)
