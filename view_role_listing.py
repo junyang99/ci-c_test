@@ -76,9 +76,10 @@ class Role_Skill(db.Model):
 # specific role listings
 @app.route('/Role_Listing', methods=['GET'])
 def get_role_listing():
-    position_id = request.get_json()['position_id'] # input format -- {"position_id": position_id}
+    position_id = request.get_json()['position_id'] # input format -- {"position_id": position_id, "staff_id": staff_id}
+    staff_id = request.get_json()['staff_id']
 
-    if position_id:
+    if position_id and staff_id:
         # get row from Open_Position table
         # can get Role_Name (1) from here
         selected_role_listing = Open_Position.query.filter_by(Position_ID = position_id).first()
@@ -92,7 +93,8 @@ def get_role_listing():
         selected_skill_info = Role_Skill.query.filter_by(Role_Name = selected_role_listing.Role_Name).all()
 
         # get Staff's current skills (5) from Staff_Skill table 
-        staff_skill = invoke_http(viewStaffSkillURL, method='GET') # this function is using get_all to return all staff skills in the table; not skills of a specific staff
+        staffURL = viewStaffSkillURL + "/" + str(staff_id)
+        staff_skill = invoke_http(staffURL, method='GET') # this function is using get_staff_skills to return skills of a specific staff
 
         # return Role-Skill Match (6)
         def get_role_skill_match():
@@ -110,7 +112,7 @@ def get_role_listing():
                         'Role_Desc': selected_role_info.Role_Desc,
                         'Department': selected_role_info.Department,
                         'Required Skills for Role': [roleSkill.json() for roleSkill in selected_skill_info],
-                        'Staff Skills': [staff_skill],
+                        'Staff Skills': staff_skill,
                         'Role-Skill Match': role_skill_match
                     }
             })
@@ -122,7 +124,7 @@ def get_role_listing():
 
     return jsonify({
         'code': 400,
-        'message': 'No role listing selected.'
+        'message': 'No role listing selected or no staff ID found.'
     }), 400
 
 if __name__ == '__main__':
