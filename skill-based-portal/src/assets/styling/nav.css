@@ -22,6 +22,7 @@ ul li {
     display: inline-block;
     vertical-align: middle;
     margin-right: 54px;
+    font-family: text-regular;
 }
 
 ul li a {
