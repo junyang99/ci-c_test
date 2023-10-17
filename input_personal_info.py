@@ -42,11 +42,11 @@ def validate_email(email):
 def index():
     # Prepopulate sample data
     sample_data = {
-        'staff_id': '123',
-        'staff_fname': 'John',
-        'staff_lname': 'Doe',
-        'department': 'HR',
-        'email': 'johndoe@example.com',
+        'staff_id': '210044',
+        'staff_fname': 'Chandara',
+        'staff_lname': 'Tith',
+        'department': 'IT',
+        'email': 'Phuc.Luong@allinone.com.sg',
     }
     
     return render_template('index.html', sample_data=sample_data)
@@ -91,9 +91,47 @@ def submit():
         flash(f"Error: {err}")
         flash("An error occurred while submitting your application.")
 
-    return redirect(url_for('index'))
+    return redirect(url_for('view_staff', staff_id=staff_id))
 
+@app.route('/view_staff/<staff_id>')
+def view_staff(staff_id):
+    # Create a new connection and cursor for this route
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        flash(f"Error: {err}")
+        flash("An error occurred while connecting to the database.")
+        return redirect(url_for('index'))
     
+    # Retrieve staff information from the database based on staff_id
+    try:
+        cursor.execute('''
+            SELECT s.Staff_ID, s.Staff_FName, s.Staff_LName, s.Dept, s.Email, a.Cover_Letter
+            FROM staff s
+            LEFT JOIN `hr portal`.application a ON s.Staff_ID = a.Staff_ID
+            WHERE s.Staff_ID = %s
+        ''', (staff_id,))
+        staff_info = cursor.fetchone()
+
+        if staff_info:
+            return render_template('view_staff.html', staff_id=staff_info[0], staff_fname=staff_info[1], staff_lname=staff_info[2], department=staff_info[3], email=staff_info[4], cover_letter=staff_info[5])
+        else:
+            flash("Staff not found")
+            return redirect(url_for('index'))
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        flash(f"Error: {err}")
+        flash("An error occurred while fetching staff information.")
+        return redirect(url_for('index'))
+    finally:
+        # Close the cursor and the connection
+        cursor.close()
+        conn.close()
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
 
