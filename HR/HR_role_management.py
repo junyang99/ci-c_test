@@ -207,26 +207,31 @@ def update_role():
             department_name = data.get('department')
             skills = data.get('skills')
 
+            role = Role.query.filter_by(role_name=title).first()
+
+            if not role:
+                return jsonify({'message': 'Role not found'}), 404
+            
+            #field validation if it exists
             fields_error = {}
 
-            title_error = field_check(title)
-            if title_error:
-                fields_error['role_name'] = title_error
+            if 'description' in data:
+                description_error = field_check(description)
+                if description_error:
+                    fields_error['description'] = description_error
 
-            description_error = field_check(description)
-            if description_error:
-                fields_error['description'] = description_error
+            if 'department' in data:
+                department_error = field_check(department_name)
+                if department_error:
+                    fields_error['department'] = department_error
 
-            department_error = field_check(department_name)
-            if department_error:
-                fields_error['department'] = department_error
-
-            if isinstance(skills, list):
-                skills_error = field_check(skills)
-                if skills_error:
-                    fields_error['skills'] = skills_error
-            else:
-                fields_error['skills'] = "Skills should be a list"
+            if 'skills' in data:
+                if isinstance(skills, list):
+                    skills_error = field_check(skills)
+                    if skills_error:
+                        fields_error['skills'] = skills_error
+                else:
+                    fields_error['skills'] = "Skills should be a list"
 
             # Check if any field is missing
             if fields_error:
@@ -235,41 +240,36 @@ def update_role():
                     'data': fields_error
                 }), 400
 
-            role = Role.query.filter_by(role_name=title).first()
-
-            if role:
             # Update the role data with the new values
-                if 'description' in data:
-                    role.role_desc = description
+            if 'description' in data:
+                role.role_desc = description
 
-                if 'department' in data:
-                    role.department = department_name
-                
-                if 'skills' in data:
-                    # Delete all existing skills
-                    for skill in role.skills:
-                        db.session.delete(skill)
+            if 'department' in data:
+                role.department = department_name
+            
+            if 'skills' in data:
+                # Filter out skills that are already associated with the role
+                new_skills = [skill for skill in skills if skill not in [s.skill_name for s in role.skills]]
 
-                    # Add new skills
-                    for skill in skills:
-                        role_skill = RoleSkill(role_name=title, skill_name=skill)
-                        db.session.add(role_skill)
+                # Add new skills
+                for skill in new_skills:
+                    role_skill = RoleSkill(role_name=title, skill_name=skill)
+                    db.session.add(role_skill)
 
-                # Commit the changes to the database
-                db.session.commit()
+            # Commit the changes to the database
+            db.session.commit()
 
-                skills = [skill.skill_name for skill in role.skills]
+            #get skills for json response
+            skills = [skill.skill_name for skill in role.skills]
 
-                return jsonify({
-                    'message': 'Role updated successfully',
-                    'data': {
-                        'role_name': role.role_name,
-                        'role_desc': role.role_desc,
-                        'department': role.department,
-                        'skills': skills
-                    }}), 200
-            else:
-                return jsonify({'message': 'Role not found'}), 404
+            return jsonify({
+                'message': 'Role updated successfully',
+                'data': {
+                    'role_name': role.role_name,
+                    'role_desc': role.role_desc,
+                    'department': role.department,
+                    'skills': skills
+                }}), 200
 
         except Exception as e:
             print(str(e))
