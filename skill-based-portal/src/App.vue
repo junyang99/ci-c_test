@@ -1,32 +1,52 @@
 <template>
-  <nav>
-    <ul style="margin-bottom: 0;">
-      <li> <img src="@/assets/logo.png" class="logo"> </li>
-      <li class="nav-link">
-        <router-link to="/">Role Listing</router-link>
-      </li>
-      <li class="nav-link">
-        <router-link to="/">My Applications</router-link>
-      </li>
-      <li class="nav-link">
-        <router-link to="/">My Profile</router-link>
-      </li>
+  <div id="app">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
 
-      <div id="nav-user">
-        <li id="nav-user">
-          <img src="@/assets/icons/user.png" style="height: 40px; width: auto;">
+    <nav>
+      <ul style="margin-bottom: 0;">
+        <li> <img src="@/assets/logo.png" class="logo"> </li>
+        <li class="nav-link">
+          <router-link :to="{ name: 'overallListing'}">
+            <a href="./views/overall_listing.vue">Role Listing</a>
+          </router-link>
         </li>
-        <li id="nav-user">
-          <div> {{ userName }} </div>
-          <div> {{ userRole }} </div>
+        <li class="nav-link">
+          <router-link :to="{ name: 'myApplications'}">
+            <a href="./views/myApplications.vue">My Applications</a>
+          </router-link>
         </li>
+        <li class="nav-link">
+          <router-link :to="{ name: 'myProfile'}">
+            <a href="./views/myProfile.vue">My Profile</a>
+          </router-link>
+        </li>
+        <div id="nav-user">
+          <li id="nav-user">
+            <img src="@/assets/icons/user.png" style="height: 40px; width: auto;">
+          </li>
+          <li id="nav-user">
+            <div> {{ userName }} </div>
+            <div> {{ userRole }} </div>
+          </li>
+        </div>
+      </ul>
+    </nav>
+
+    <main>
+      <div>
+        <router-view></router-view>
       </div>
-    </ul>
-  </nav>
+    </main>
+  </div>
 </template>
 
 <script>
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
+import '@fortawesome/fontawesome-free/css/all.css';
+
 export default {
+  name: "App",
   data() {
     return {
       userName: "Alice Tan",
@@ -39,4 +59,5 @@ export default {
 <style>
   @import 'assets/styling/nav.css';
   @import 'assets/styling/styles.css';
+  @import "https://unicons.iconscout.com/release/v4.0.0/css/line.css"
 </style>
