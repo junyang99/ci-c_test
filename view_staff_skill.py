@@ -99,7 +99,7 @@ class Staff_Skill(db.Model):
     def json(self):
         return {
             'Staff_ID': self.Staff_ID,
-            'Skill_Desc': self.Skill_Name
+            'Skill_Name': self.Skill_Name
         }
 
 
@@ -118,6 +118,35 @@ def get_all():
         'code': 400,
         'message': 'There is no records of Staff skill'
     }
+
+# function to get specific staff skill
+@app.route('/Staff_Skill/<int:staff_id>')
+def get_staff_skills(staff_id):
+    staff_skills = db.session.query(Staff_Skill, Skill.Skill_Desc).\
+        join(Skill, Staff_Skill.Skill_Name == Skill.Skill_Name).\
+        filter(Staff_Skill.Staff_ID == staff_id).all()
+
+    if staff_skills:
+        result = []
+        for staff_skill, skill_desc in staff_skills:
+            result.append({
+                'Staff_ID': staff_skill.Staff_ID,
+                'Skill_Name': staff_skill.Skill_Name,
+                'Skill_Desc': skill_desc
+            })
+        return jsonify({
+            'code': 200,
+            'data': {
+                'Staff-Skill': result
+            }
+        })
+    
+    return {
+        'code': 400,
+        'message': 'No skills found for staff with staff_id ' + str(staff_id)
+    }
+
+
 
 
 if __name__ == '__main__':
