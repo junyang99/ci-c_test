@@ -57,8 +57,8 @@ class Role_Skill(db.Model):
 
     def json(self):
         return {
-            'Skill_Name': self.Role_Name,
-            'Skill_Desc': self.Skill_Name
+            'Role_Name': self.Role_Name,
+            'Role_Desc': self.Skill_Name
         }
 
 #Yet to test

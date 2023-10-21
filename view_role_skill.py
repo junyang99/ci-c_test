@@ -66,8 +66,8 @@ class Role_Skill(db.Model):
 
     def json(self):
         return {
-            'Skill_Name': self.Role_Name,
-            'Skill_Desc': self.Skill_Name
+            'Role_Name': self.Role_Name,
+            'Role_Desc': self.Skill_Name
         }
 
 
@@ -87,6 +87,22 @@ def get_all():
         'message': 'There is no records of Roles-Skill'
     }
 
+@app.route('/Role_Skill/<string:Role_Name>')
+def get_role_skills(Role_Name):
+    role_skills = Role_Skill.query.filter_by(Role_Name=Role_Name).all()
+    
+    if role_skills:
+        return jsonify({
+            'code': 200,
+            'data': {
+                'Role-Skill': [role_skill.json() for role_skill in role_skills]
+            }
+        })
+    
+    return {
+        'code': 400,
+        'message': 'No skills found for the role: ' + Role_Name
+    }
 
 if __name__ == '__main__':
     app.run(port=5011, debug=True)
