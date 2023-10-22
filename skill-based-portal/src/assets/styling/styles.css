@@ -55,6 +55,7 @@ body {
     --application-heading: #007AFF;
     --application-skills: rgba(0,122, 255, 0.25);
     --application-submit: #4C2719;
+    --application-cancel: #AD4119;
     --application-delete: #810101;
 
     --table-header: #6B7280;

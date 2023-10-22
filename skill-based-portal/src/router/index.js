@@ -25,6 +25,11 @@ const routes = [
         path: "/Role-Application",
         name: "roleApplication",
         component: () => import("../views/role_application.vue")
+    },
+    {
+        path: "/Application-Confirmation",
+        name: "applicationConfirmation",
+        component: () => import("../views/application_confirmation.vue")
     }
 ]
 

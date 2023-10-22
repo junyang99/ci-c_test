@@ -41,7 +41,7 @@ label {
     margin: 0 10px;
 }
 
-#submit-btn {
+.submit-btn {
     font-family: text-bold;
     color: var(--default-white);
     background-color: var(--application-submit);
@@ -49,4 +49,16 @@ label {
     padding: 8px 22px;
     outline: none;
     border: none;
+    margin-right: 15px;
+}
+
+.cancel-btn {
+    font-family: text-bold;
+    color: var(--default-white);
+    background-color: var(--application-cancel);
+    border-radius: 1415.56px;
+    padding: 8px 22px;
+    outline: none;
+    border: none;
+    margin-right: 15px;
 }

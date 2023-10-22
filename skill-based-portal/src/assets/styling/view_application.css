@@ -61,6 +61,7 @@ label {
     color: var(--subheading);
     font-size: 25px;
     margin-bottom: 0px;
+    text-decoration: none;
 }
 
 img {
