@@ -3,12 +3,10 @@
         <v-container>
             <div style="padding-top: 80px; padding-bottom: 80px;">
 
-                <div style="padding: 35px;">
                 <div class="container ms-auto">
                     <div class="row">
                     <div class="col">
                         <router-link :to="{ name: 'overallListing'}">
-
                             <div id="back-group" class="d-flex align-center">
                                 <img class="back-button" src="../assets/icons/back.png" />
                                 <p id="back-text">Back to All Role Listings</p>
@@ -17,7 +15,7 @@
                     </div>
                     </div>
 
-                    <br><br>
+                    <br>
 
                     <div class="row">
                     <div class="col">
@@ -61,7 +59,6 @@
                     </div>
                 </div>
                 </div>
-            </div>
 
         </v-container>
     </v-app>

@@ -1,4 +1,4 @@
-.table {
+t.table {
     border: 1px solid var(--table-outline);
     border-collapse: collapse;
 }
@@ -26,10 +26,11 @@
 } */
 
 .table-status {
-    background-color: var(--status-pending);
+    /* background-color: var(--status-pending); */
     border-radius: 980px;
     padding: 8px 22px;
     text-align: center;
+    color: var(--default-white);
 }
 
 .table-actions {
