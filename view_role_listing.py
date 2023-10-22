@@ -4,6 +4,8 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from invokes import invoke_http
+from urllib.parse import quote
+import requests
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/HR Portal'  # Adjust the database name here
@@ -13,6 +15,7 @@ db = SQLAlchemy(app)
 CORS(app)
 
 viewStaffSkillURL = "http://localhost:5012/Staff_Skill"
+roleSkillPercentURL = "http://localhost:5014/compare_skills"
 
 class Role(db.Model):
     __tablename__ = 'Role'
@@ -96,14 +99,11 @@ def get_role_listing():
         staffURL = viewStaffSkillURL + "/" + str(staff_id)
         staff_skill = invoke_http(staffURL, method='GET') # this function is using get_staff_skills to return skills of a specific staff
 
-        # return Role-Skill Match (6)
-        def get_role_skill_match():
-            # should use selected_skill_info and staff_skill to calculate
-            return 70 # need to change this to actual function
-        
-        role_skill_match = get_role_skill_match()
+        # return Role-Skill Match (6) from role_skill_percentage.py
+        role_skill_params = {'staff_id': staff_id, 'role_name': selected_role_listing.Role_Name}
+        role_skill_match = requests.get(roleSkillPercentURL, params=role_skill_params).json()
 
-        if selected_role_info and selected_skill_info:
+        if selected_role_info and selected_skill_info and staff_skill["code"]==200 and role_skill_match["code"]==200:
             return jsonify({
                 'code': 200,
                 'data':
