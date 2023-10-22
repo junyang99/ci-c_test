@@ -102,44 +102,30 @@
         
                 <div class="container ms-auto">
                     <div class="row">
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="listing-card">
-                                <p class="card-heading">Account Manager</p>
-                                <p class="card-subheading">Sales</p>
-        
-                                <p class="card-deadline">Deadline: 15 October 2023</p>
-                                <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        
-                                <button class="card-find-btn">Find Out More</button>
-                                <button class="card-apply-btn">APPLY</button>
-                            </div>
-                        </div>
-        
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="listing-card">
-                                <p class="card-heading">Account Manager</p>
-                                <p class="card-subheading">Sales</p>
-        
-                                <p class="card-deadline">Deadline: 15 October 2023</p>
-                                <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        
-                                <button class="card-find-btn">Find Out More</button>
-                                <button class="card-apply-btn">APPLY</button>
-                            </div>
-                        </div>
-        
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="listing-card">
-                                <p class="card-heading">Account Manager</p>
-                                <p class="card-subheading">Sales</p>
-        
-                                <p class="card-deadline">Deadline: 15 October 2023</p>
-                                <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        
-                                <button class="card-find-btn">Find Out More</button>
-                                <button class="card-apply-btn">APPLY</button>
-                            </div>
-                        </div>
+
+                        <router-link class="router-link-custom" :to="{ name: 'specificListing'}">
+                        <!-- <router-link :to="{ name: 'specificListing', params:{ id: 1 }}"> -->
+                            <a href="./views/specific_listing.vue"></a>
+
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6 col-12" v-for="card in cardData" :key="card.id">
+                                    <div class="listing-card">
+                                    <p class="card-heading">{{ card.title }}</p>
+                                    <p class="card-subheading">{{ card.department }}</p>
+                                    <p class="card-deadline">Deadline: {{ card.deadline }}</p>
+                                    <p class="card-description">{{ card.description }}</p>
+                                    <router-link :to="{ name: 'specificListing', params: { id: card.id } }">
+                                        <button class="card-find-btn">Find Out More</button>
+                                    </router-link>
+                                    <router-link :to="{ name: 'roleApplication', params: { id: card.id } }">
+                                        <button class="card-apply-btn">APPLY</button>
+                                    </router-link>
+                                    </div>
+                                </div>
+                                </div>
+
+                        </router-link>
+
                     </div>
                 </div>
         
@@ -161,7 +147,37 @@
         },
         created() {
             console.log("working")
-        }
+        },
+
+        data() {
+            return {
+            cardData: [
+                {
+                id: 1,
+                title: "Account Manager",
+                department: "Sales",
+                deadline: "15 October 2023",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                },
+
+                {
+                id: 2,
+                title: "Account Manager",
+                department: "Sales",
+                deadline: "15 October 2023",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                },
+
+                {
+                id: 3,
+                title: "Account Manager",
+                department: "Sales",
+                deadline: "15 October 2023",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                },
+            ],
+            };
+        },
     }
 </script>
 

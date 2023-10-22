@@ -81,3 +81,9 @@ body {
     font-size: 35px;
     margin-bottom: 0;
 }
+
+/* Add this CSS to your stylesheet */
+.router-link-custom {
+    text-decoration: none; /* Remove the underline */
+    color: inherit; /* Use the parent's text color */
+}

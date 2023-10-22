@@ -15,6 +15,16 @@ const routes = [
         path: "/My-Profile",
         name: "myProfile",
         component: () => import("../views/myProfile.vue")
+    },
+    {
+        path: "/Specific-Listing",
+        name: "specificListing",
+        component: () => import("../views/specific_listing.vue")
+    },
+    {
+        path: "/Role-Application",
+        name: "roleApplication",
+        component: () => import("../views/role_application.vue")
     }
 ]
 

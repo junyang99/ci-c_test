@@ -34,12 +34,18 @@
     margin-bottom: 10px;
 }
 
-.card-description{
+.card-description {
     font-family: text-regular;
     color: var(--default-black);
     font-size: 17px;
     text-align: justify;
     margin-bottom: 23px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .card-find-btn{
