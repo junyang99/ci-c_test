@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-container>
-            <div style="padding-top: 80px;">
+            <div style="padding-top: 80px; padding-bottom: 80px;">
 
                 <div class="container ms-auto">
                     <div class="page-head">
@@ -29,69 +29,14 @@
                                     <i class="fa-solid fa-chevron-down"></i>
                                 </span>
                             </div>
-        
+
                             <ul class="list-items">
-                                <li class="item">
+                                <!-- Use v-for to loop through departments and generate list items -->
+                                <li class="item" v-for="(department, index) in departments" :key="index">
                                     <span class="checkbox">
-                                        <i class="fa-solid fa-check check-icon"></i>
+                                    <i class="fa-solid fa-check check-icon"></i>
                                     </span>
-                                    <span class="item-text">Chairman</span>
-                                </li>
-        
-                                <li class="item">
-                                    <span class="checkbox">
-                                        <i class="fa-solid fa-check check-icon"></i>
-                                    </span>
-                                    <span class="item-text">CEO</span>
-                                </li>
-        
-                                <li class="item">
-                                    <span class="checkbox">
-                                        <i class="fa-solid fa-check check-icon"></i>
-                                    </span>
-                                    <span class="item-text">Sales</span>
-                                </li>
-        
-                                <li class="item">
-                                    <span class="checkbox">
-                                        <i class="fa-solid fa-check check-icon"></i>
-                                    </span>
-                                    <span class="item-text">Engineering</span>
-                                </li>
-        
-                                <li class="item">
-                                    <span class="checkbox">
-                                        <i class="fa-solid fa-check check-icon"></i>
-                                    </span>
-                                    <span class="item-text">HR</span>
-                                </li>
-        
-                                <li class="item">
-                                    <span class="checkbox">
-                                        <i class="fa-solid fa-check check-icon"></i>
-                                    </span>
-                                    <span class="item-text">Finance</span>
-                                </li>
-        
-                                <li class="item">
-                                    <span class="checkbox">
-                                        <i class="fa-solid fa-check check-icon"></i>
-                                    </span>
-                                    <span class="item-text">Consultancy</span>
-                                </li>
-        
-                                <li class="item">
-                                    <span class="checkbox">
-                                        <i class="fa-solid fa-check check-icon"></i>
-                                    </span>
-                                    <span class="item-text">Solutioning</span>
-                                </li>
-        
-                                <li class="item">
-                                    <span class="checkbox">
-                                        <i class="fa-solid fa-check check-icon"></i>
-                                    </span>
-                                    <span class="item-text">IT</span>
+                                    <span class="item-text">{{ department }}</span>
                                 </li>
                             </ul>
                         </div>
@@ -103,7 +48,7 @@
                 <div class="container ms-auto">
                     <div class="row">
 
-                        <router-link class="router-link-custom" :to="{ name: 'specificListing'}">
+                        <router-link class="router-link-custom" :to="{ name: 'roleListing'}">
                         <!-- <router-link :to="{ name: 'specificListing', params:{ id: 1 }}"> -->
                             <a href="./views/specific_listing.vue"></a>
 
@@ -114,7 +59,7 @@
                                     <p class="card-subheading">{{ card.department }}</p>
                                     <p class="card-deadline">Deadline: {{ card.deadline }}</p>
                                     <p class="card-description">{{ card.description }}</p>
-                                    <router-link :to="{ name: 'specificListing', params: { id: card.id } }">
+                                    <router-link :to="{ name: 'roleListing', params: { id: card.id } }">
                                         <button class="card-find-btn">Find Out More</button>
                                     </router-link>
                                     <router-link :to="{ name: 'roleApplication', params: { id: card.id } }">
@@ -176,6 +121,18 @@
                 description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                 },
             ],
+
+            departments: [
+                "Chairman",
+                "CEO",
+                "Sales",
+                "Engineering",
+                "HR",
+                "Finance",
+                "Consultancy",
+                "Solutioning",
+                "IT",
+            ]
             };
         },
     }

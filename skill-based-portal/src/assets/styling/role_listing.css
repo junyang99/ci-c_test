@@ -1,4 +1,8 @@
 /* SPECIFIC LISTING PAGE */
+.back-button {
+    height: 40px;
+    width: auto;
+}
 
 .page-description {
     text-align: justify;

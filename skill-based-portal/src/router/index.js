@@ -17,9 +17,9 @@ const routes = [
         component: () => import("../views/myProfile.vue")
     },
     {
-        path: "/Specific-Listing",
-        name: "specificListing",
-        component: () => import("../views/specific_listing.vue")
+        path: "/Role-Listing",
+        name: "roleListing",
+        component: () => import("../views/role_listing.vue")
     },
     {
         path: "/Role-Application",
