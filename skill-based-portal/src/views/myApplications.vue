@@ -36,7 +36,10 @@
                             </span>
                         </td>
                         <td>
-                            <img class="table-actions" src="../assets/icons/view.png" @click="viewApplication(index)" />
+                            <router-link :to="{ name: 'viewApplication'}">
+                                <img class="table-actions" src="../assets/icons/view.png" />
+                                <!-- <img class="table-actions" src="../assets/icons/view.png" @click="viewApplication(index)" /> -->
+                            </router-link>
                             <img class="table-actions" src="../assets/icons/edit.png" />
                             <img class="table-actions" src="../assets/icons/delete.png" />
                         </td>

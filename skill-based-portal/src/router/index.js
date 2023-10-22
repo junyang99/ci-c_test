@@ -30,6 +30,11 @@ const routes = [
         path: "/Application-Confirmation",
         name: "applicationConfirmation",
         component: () => import("../views/application_confirmation.vue")
+    },
+    {
+        path: "/View-Application",
+        name: "viewApplication",
+        component: () => import("../views/view_application.vue")
     }
 ]
 

@@ -74,7 +74,7 @@ img {
     font-family: text-regular;
     font-size: 14px;
     color: var(--default-black);
-    background-color: var(--status-pending);
+    /* background-color: var(--status-pending); */
     border-radius: 980px;
     padding: 8px 22px;
     outline: none;
