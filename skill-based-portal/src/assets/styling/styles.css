@@ -58,6 +58,9 @@ body {
     --application-cancel: #AD4119;
     --application-delete: #810101;
 
+    --application-success: #3BB54A;
+    --application-failure: #FF3737;
+
     --table-header: #6B7280;
     --table-data: #111827;
     --table-outline: #D9D9D9;

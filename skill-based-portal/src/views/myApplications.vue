@@ -4,8 +4,8 @@
             <div style="padding-top: 80px; padding-bottom: 80px;">
                 <div class="container ms-auto">
                     <div class="page-head">
-                    <p class="page-heading">My Applications.</p>
-                    <p class="page-subheading">Review your submitted Applications.</p>
+                        <p class="page-heading">My Applications.</p>
+                        <p class="page-subheading">Review your submitted Applications.</p>
                     </div>
                 </div>
 
