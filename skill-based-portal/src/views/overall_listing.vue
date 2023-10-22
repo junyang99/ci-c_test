@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-container>
-            <div style="padding: 35px;">
+            <div style="padding-top: 80px;">
 
                 <div class="container ms-auto">
                     <div class="page-head">
@@ -11,7 +11,7 @@
                 </div>
         
                 <div class="container ms-auto">
-                    <div class="row">
+                    <div class="search-and-filter row">
                         <div class="col-6">
         
                             <div class="input-box">
@@ -163,8 +163,4 @@
 
 <style @scoped>
     @import '@/assets/styling/overall_listing.css';
-
-    body {
-        background-color: #F5F5F7;
-    }
 </style>

@@ -4,7 +4,8 @@
     position: relative;
     /* max-width: 320px; */
     width: 100%;
-    margin: 30px;
+    /* margin: 30px; */
+    margin: auto;
 }
 
 .select-btn{

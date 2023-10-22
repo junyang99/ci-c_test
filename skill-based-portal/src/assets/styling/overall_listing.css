@@ -1,5 +1,10 @@
 /* OVERALL-LISTINGS: CARD */
 
+.search-and-filter {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
 .listing-card {
     background-color: var(--default-white);
     border-radius: 18px;
