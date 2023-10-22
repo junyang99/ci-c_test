@@ -23,7 +23,7 @@
                         </div>
         
                         <div class="col-3">
-                            <div class="select-btn">
+                            <div class="select-btn" @click="handleDropdown">
                                 <span class="btn-text">Select Department</span>
                                 <span class="arrow-dwn">
                                     <i class="fa-solid fa-chevron-down"></i>
@@ -149,9 +149,13 @@
 </template>
 
 <script>
+    import { handleDropdown } from "../assets/js/dropdown.js";
 
     export default {
         name: 'overallListing',
+        methods: {
+            handleDropdown,
+        },
         mounted() {
             document.title = "All in One";
         },
