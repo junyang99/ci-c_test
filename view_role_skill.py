@@ -101,7 +101,7 @@ def get_role_skills(Role_Name):
     
     return {
         'code': 400,
-        'message': 'No skills found for the role: ' + Role_Name
+        'message': 'Role' + Role_Name + ' does not exist.'
     }
 
 if __name__ == '__main__':

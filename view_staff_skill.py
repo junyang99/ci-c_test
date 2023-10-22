@@ -143,7 +143,7 @@ def get_staff_skills(staff_id):
     
     return {
         'code': 400,
-        'message': 'No skills found for staff with staff_id ' + str(staff_id)
+        'message': 'Invalid Staff ID'
     }
 
 
