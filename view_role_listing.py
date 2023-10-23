@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from invokes import invoke_http
 from urllib.parse import quote
+from datetime import datetime
 import requests
 
 app = Flask(__name__)
@@ -86,6 +87,14 @@ def get_role_listing():
         # get row from Open_Position table
         # can get Role_Name (1) from here
         selected_role_listing = Open_Position.query.filter_by(Position_ID = position_id).first()
+
+        today = datetime.now().date()
+
+        if selected_role_listing.Ending_Date < today:
+            return jsonify({
+                'code': 400,
+                'message': 'Ending date has passed.'
+            }), 400
 
         # use Role_Name from Open_Position table to match with Role_Name in Role table
         # Role table -> Role_Desc (2), Department (3)
