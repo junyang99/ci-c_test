@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS Role (
     Department VARCHAR(50)
 );
 
+
 -- Create the Skill table
 CREATE TABLE IF NOT EXISTS Skill (
     Skill_Name VARCHAR(50) PRIMARY KEY,
