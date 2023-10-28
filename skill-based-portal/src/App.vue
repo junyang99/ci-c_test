@@ -5,30 +5,50 @@
     <nav>
       <ul style="margin-bottom: 0;">
         <li> <img src="@/assets/logo.png" class="logo"> </li>
+
         <li class="nav-link">
           <router-link :to="{ name: 'overallListing'}">
             <a href="./views/overall_listing.vue">Role Listing</a>
           </router-link>
         </li>
+
         <li class="nav-link">
           <router-link :to="{ name: 'myApplications'}">
             <a href="./views/myApplications.vue">My Applications</a>
           </router-link>
         </li>
+
         <li class="nav-link">
           <router-link :to="{ name: 'myProfile'}">
             <a href="./views/myProfile.vue">My Profile</a>
           </router-link>
         </li>
-        <div id="nav-user">
-          <li id="nav-user">
-            <img src="@/assets/icons/user.png" style="height: 40px; width: auto;">
-          </li>
-          <li id="nav-user">
-            <div> {{ userName }} </div>
-            <div> {{ userRole }} </div>
-          </li>
+
+        <div class="left-align">
+          <div class="toggle">
+            <label for="switch" class="toggle-label"> Staff Mode </label>
+
+            <label class="switch">
+              <input type="checkbox" name="switch">
+              <span class="slider round"></span>
+            </label>
+
+            <label for="switch" class="toggle-label"> HR Mode </label>
+
+          </div>
+
+          <div id="nav-user">
+            <li id="nav-user">
+              <img src="@/assets/icons/user.png" style="height: 40px; width: auto;">
+            </li>
+
+            <li id="nav-user">
+              <div> {{ userName }} </div>
+              <div> {{ userRole }} </div>
+            </li>
+          </div>
         </div>
+        
       </ul>
     </nav>
 

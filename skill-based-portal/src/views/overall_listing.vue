@@ -122,6 +122,30 @@
                 deadline: "15 October 2023",
                 description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                 },
+
+                {
+                id: 1,
+                title: "Account Manager",
+                department: "Sales",
+                deadline: "15 October 2023",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                },
+
+                {
+                id: 2,
+                title: "Account Manager",
+                department: "Sales",
+                deadline: "15 October 2023",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                },
+
+                {
+                id: 3,
+                title: "Account Manager",
+                department: "Sales",
+                deadline: "15 October 2023",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                },
             ],
 
             departments: [
