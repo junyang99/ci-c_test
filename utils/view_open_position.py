@@ -72,7 +72,8 @@ def get_all():
 # get open roles based on selected department
 @app.route('/Open_Position/Dept', methods=['GET'])
 def get_open_roles_for_dept():
-    department_names = request.get_json()['departments'] # input format -- {"departments": [dept1, dept2]}
+    # department_names = request.get_json()['departments'] # input format -- {"departments": [dept1, dept2]}
+    department_names = request.args.get('departments')
 
     if department_names:
         response = get_all()
@@ -116,7 +117,8 @@ def get_open_roles_for_dept():
 # search function 
 @app.route('/Open_Position/Search', methods=['GET'])
 def search_for_roles():
-    keyword = request.get_json()['search_input'] # input format -- {"search_input": keyword}
+    # keyword = request.get_json()['search_input'] # input format -- {"search_input": keyword}
+    keyword = request.args.get('search_input')
     
     if keyword:
         response = get_all()
