@@ -18,7 +18,7 @@
         
                             <div class="input-box">
                                 <i class="uil uil-search"></i>
-                                <input type="text" placeholder="Search" />
+                                <input type="text" v-model="searchInput" @input="searchRoles" placeholder="Search" />
                                 <!-- <button class="button">Search</button> -->
                             </div>
         
@@ -55,7 +55,7 @@
                             <a href="./views/specific_listing.vue"></a>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-6 col-12" v-for="card in cardData" :key="card.id">
+                                <div class="col-lg-4 col-md-6 col-12" v-for="card in filteredCardData" :key="card.id">
                                     <div class="listing-card">
                                     <p class="card-heading">{{ card.title }}</p>
                                     <p class="card-subheading">{{ card.department }}</p>
@@ -75,19 +75,64 @@
 
                     </div>
                 </div>
-        
             </div>
         </v-container>
     </v-app>
 </template>
 
 <script>
+    import axios from 'axios';
     import { handleDropdown } from "../assets/js/dropdown.js";
 
     export default {
         name: 'overallListing',
         methods: {
             handleDropdown,
+            async searchRoles() {
+                const url = "http://127.0.0.1:5006/Open_Position/Search";
+                console.log(this.cardData);
+                try {
+                    const response = await axios.get(url, {
+                            params: {
+                                search_input: this.searchInput
+                            }
+                    })
+                    
+                    console.log(response);
+                    if (response.status === 200) {
+                        console.log("testing");
+                        console.log(response.data.data);
+                        var openPositions = response.data.data.open_positions;
+                        // console.log(openPositions[0]);
+                        var filteredData = [];
+                        for (var i = 0; i < openPositions.length; i++) {
+                            console.log(openPositions[i]);
+                            let id = openPositions[i].Position_ID;
+                            let title = openPositions[i].Role_Name;
+                            let department = openPositions[i].Department;
+                            let deadline = openPositions[i].Ending_Date;
+                            let description = openPositions[i].Role_Desc;
+
+                            filteredData.push({
+                                id: id,
+                                title: title,
+                                department: department,
+                                deadline: deadline,
+                                description: description
+                            })
+                        }
+
+                        console.log(filteredData);
+                        // return filteredData;
+                        this.filteredData = filteredData;
+                    }
+
+
+                } catch (error) {
+                    console.log(error);
+                    console.log("error");
+                }
+            }
         },
         mounted() {
             document.title = "All in One";
@@ -95,9 +140,9 @@
         created() {
             console.log("working")
         },
-
         data() {
             return {
+            searchInput: "",
             cardData: [
                 {
                 id: 1,
@@ -109,16 +154,16 @@
 
                 {
                 id: 2,
-                title: "Account Manager",
-                department: "Sales",
+                title: "Finance Manager",
+                department: "Finance",
                 deadline: "15 October 2023",
                 description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                 },
 
                 {
                 id: 3,
-                title: "Account Manager",
-                department: "Sales",
+                title: "Developer",
+                department: "IT",
                 deadline: "15 October 2023",
                 description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                 },
@@ -161,6 +206,15 @@
             ]
             };
         },
+        computed: {
+            filteredCardData() {
+                if (this.searchInput) {
+                    return this.filteredData;
+                } else {
+                    return this.cardData;
+                }
+            }   
+        }
     }
 </script>
 
