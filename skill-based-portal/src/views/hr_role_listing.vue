@@ -58,6 +58,47 @@
                             </div>
                         </div>
                     </div>
+
+                    <br><br>
+
+                    <div class="row" v-if="roleData[0].startDate && roleData[0].endDate">
+                        <div class="col">
+                            <p class="page-subheading">View Applicants</p>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="row" v-if="roleData[0].startDate && roleData[0].endDate">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Applicant Name</th>
+                                    <th>Skills</th>
+                                    <!-- <th>Date Submitted</th> -->
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr v-for="(applicant, index) in allApplicants" :key="index">
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ applicant.applicantName }}</td>
+                                <td>{{ applicant.applicantSkills }}</td>
+                                <!-- <td>{{ applicant.dateSubmitted }}</td> -->
+                                <td>
+                                    <router-link :to="{ name: 'viewApplicationHR'}">
+                                        <img class="table-actions" src="../assets/icons/view.png" />
+                                        <!-- <img class="table-actions" src="../assets/icons/view.png" @click="viewApplication(index)" /> -->
+                                    </router-link>
+                                    <img class="table-actions" src="../assets/icons/edit.png" />
+                                    <img class="table-actions" src="../assets/icons/delete.png" />
+                                </td>
+                                </tr>
+                            </tbody>
+                            </table>
+                    </div>
                 </div>
                 </div>
 
@@ -79,18 +120,26 @@
             return {
             roleData: [
                 {
-                        id: 1,
-                        title: "Account Manager",
-                        department: "Sales",
-                        deadline: "15 October 2023",
-                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                        skills: ['Audit Frameworks', 'Budgeting', 'Business Acumen'],
-                        // startDate: "10 October 2023",
-                        // endDate: "20 October 2023",
-                        startDate: "",
-                        endDate: ""
+                    id: 1,
+                    title: "Account Manager",
+                    department: "Sales",
+                    deadline: "15 October 2023",
+                    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    skills: ['Audit Frameworks', 'Budgeting', 'Business Acumen'],
+                    startDate: "10 October 2023",
+                    endDate: "20 October 2023",
+                    // startDate: "",
+                    // endDate: ""
                 }
             ],
+
+            allApplicants: [
+                {
+                    applicantName: "Ben Tan",
+                    applicantSkills: "Audit Frameworks, Budgeting, Business Acumen",
+                    // dateSubmitted: "10 October 2023"
+                }
+            ]
             };
         },
     }
@@ -100,4 +149,6 @@
     @import '@/assets/styling/staff_role_listing.css';
     @import '@/assets/styling/staff_view_application.css';
     @import '@/assets/styling/hr_role_listing.css';
+    @import '@/assets/styling/staff_overall_application.css';
+    @import '@/assets/styling/hr_overall_listing.css';
 </style>

@@ -13,6 +13,7 @@
     "core-js": "^3.8.3",
     "unicons": "^0.0.3",
     "vue": "^3.3.6",
+    "vue-multiselect": "^3.0.0-beta.3",
     "vue-router": "^4.2.5",
     "vue-template-compiler": "^2.7.14"
   },

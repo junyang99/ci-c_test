@@ -56,6 +56,11 @@ const routes = [
         name: "newListingHR",
         component: () => import("../views/hr_new_listing.vue")
     },
+    {
+        path: "/View-Application-HR",
+        name: "viewApplicationHR",
+        component: () => import("../views/hr_view_application.vue")
+    },
 ]
 
 const router = createRouter({
