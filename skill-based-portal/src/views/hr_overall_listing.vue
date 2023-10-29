@@ -57,10 +57,10 @@
                     <tbody>
                         <tr v-for="(role, index) in allRoles" :key="index">
                         <td>{{ index + 1 }}</td>
-                        <td>{{ role.roleName }}</td>
+                        <td>{{ role.role_name  }}</td>
                         <td>{{ role.department }}</td>
-                        <td>{{ role.dateStart }}</td>
-                        <td>{{ role.dateEnd }}</td>
+                        <td>{{ formatDate(role.start_date) }}</td>
+                        <td>{{ formatDate(role.end_date) }}</td>
                         <td>{{ role.status }}</td>
                         <td>
                             <router-link :to="{ name: 'roleListingHR'}">
@@ -79,10 +79,12 @@
     </v-app>
 </template>
 <script>
+import axios from 'axios';
     export default {
         name: 'overallListingHR',
         mounted() {
             document.title = "All in One";
+            this.fetchRoles();
         },
         created() {
             console.log("working")
@@ -90,33 +92,30 @@
 
         data() {
             return {
-            allRoles: [
-                {
-                    id: 1,
-                    roleName: "Account Manager",
-                    department: "Sales",
-                    dateStart: "10 October 2023",
-                    dateEnd: "20 October 2023",
-                    status: "Active"
-                },
-                {
-                    id: 2,
-                    roleName: "Account Manager",
-                    department: "Sales",
-                    dateStart: "",
-                    dateEnd: "",
-                    status: "Inactive"
-                },
-                {
-                    id: 3,
-                    roleName: "Account Manager",
-                    department: "Sales",
-                    dateStart: "",
-                    dateEnd: "",
-                    status: "Inactive"
-                }
-            ],
+            allRoles: [],
             };
+        },
+        methods: {
+            // Function to format the date string without the time
+            formatDate(dateString) {
+                if (!dateString || dateString === 'null') {
+                    return 'N/A'; // Handle cases where the date is null or empty
+                }
+                const date = new Date(dateString);
+                return date.toLocaleDateString(); // Adjust the format as needed
+            },
+            fetchRoles() {
+                // Make an HTTP GET request to fetch roles from the API
+                axios.get('http://localhost:5000/HR/role_admin')
+                    .then(response => {
+                        // Extract the roles from the response and set them to allRoles
+                        console.log(response.data.roles)
+                        this.allRoles = response.data.roles; // Assuming the API response has a "Roles" key
+                    })
+                    .catch(error => {
+                        console.error('Failed to fetch roles:', error);
+                    });
+            },
         },
     }
 </script>

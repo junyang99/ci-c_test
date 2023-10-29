@@ -17,14 +17,14 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="role_name">Role Name:</label>
-                                    <input type="text" name="role_name" id="role_name" placeholder="Role Name" />
+                                    <input v-model="title" type="text" name="role_name" id="role_name" placeholder="Role Name" />
                                 </div>
                             </div>
 
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="new_department">Department:</label>
-                                    <input type="text" name="new_department" id="new_department" placeholder="Department" />
+                                    <input v-model="department_name" type="text" name="new_department" id="new_department" placeholder="Department" />
                                 </div>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="role_description">Role Description:</label>
-                                    <textarea name="role_description" id="role_description" cols="30" rows="8"></textarea>
+                                    <textarea v-model="description" name="role_description" id="role_description" cols="30" rows="8"></textarea>
                                 </div>
                             </div>
 
@@ -48,10 +48,9 @@
                                         :multiple="true"
                                         :taggable="true"
                                         placeholder="Search for a skill"
-                                        label="name"
-                                        track-by="code"
-                                        >
-                                </VueMultiselect>
+                                        label="Role_Desc" 
+                                        track-by="Role_Desc"
+                                        ></VueMultiselect>
                                 </div>
                             </div>
                         </div>
@@ -62,14 +61,14 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="start_date">Start Date:</label>
-                                    <input type="date" name="start_date" id="start_date" />
+                                    <input v-model="start_date" type="date" name="start_date" id="start_date" />
                                 </div>
                             </div>
 
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="end_date">End Date:</label>
-                                    <input type="date" name="end_date" id="end_date" />
+                                    <input v-model="end_date" type="date" name="end_date" id="end_date" />
                                 </div>
                             </div>
                         </div>
@@ -77,10 +76,8 @@
                         <br /><br />
                         
                         <div class="d-flex">
-                            <router-link :to="{ name: 'overallListingHR'}">
-                                <button class="submit-btn">
-                                    SAVE
-                                </button>
+                            <router-link :to="{ name: 'overallListingHR' }">
+                                <button class="submit-btn" @click="submitForm">SAVE</button>
                             </router-link>
 
                             <router-link :to="{ name: 'overallListingHR'}">
@@ -98,6 +95,7 @@
 
 <script>
 import VueMultiselect from 'vue-multiselect'
+import axios from 'axios'
  
     export default {
         name: 'roleApplication',
@@ -108,30 +106,71 @@ import VueMultiselect from 'vue-multiselect'
             document.title = "All in One";
         },
         created() {
-            console.log("working")
+            console.log("working");
+            this.fetchSkills();
         },
 
         data() {
             return {
-                selected: [
-                    { name: 'Audit Compliance', code: 'Audit Compliance' }
-                ],
-                options: [
-                    { name: 'Audit Compliance', code: 'Audit Compliance' },
-                    { name: 'Audit Frameworks', code: 'Audit Frameworks' },
-                    { name: 'Budgeting', code: 'Budgeting' }
-                ]
+                selected: [],
+                options:[],
+                taggingOptions: [], 
+                taggingSelected: [],
+                title: '',            // Add data properties for form fields
+                department_name: '',
+                description: '',
+                skills: [],
+                start_date: '',
+                end_date: ''
             };
         },
 
         methods: {
+            fetchSkills() {
+                // Make an HTTP GET request to fetch skills from the API
+                axios.get('http://localhost:5011/Role_Skill')
+                .then(response => {
+                    console.log(response.data.data["Roles-Skill"]);
+                    const roleSkills = response.data.data["Roles-Skill"];
+                    
+                    // Extract all role descriptions and populate the options array
+                    this.options = roleSkills.map(item => item.Role_Desc);
+
+                    console.log('Options:', this.options);
+                })
+                .catch(error => {
+                    console.error('Failed to fetch skills:', error);
+                });
+            },
             addTag (newTag) {
             const tag = {
                 name: newTag,
                 code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
-            }
+            };
             this.taggingOptions.push(tag)
             this.taggingSelected.push(tag)
+            },
+            submitForm() {
+                // Create an object to represent the data you want to send to the API
+                const postData = {
+                    role_name: this.title,
+                    department: this.department_name,
+                    description: this.description,
+                    skills: this.selected,
+                    start_date: this.start_date,
+                    end_date: this.end_date
+                };
+
+            // Make the API request using Axios
+            axios.post("http://localhost:5000/HR/role_admin", postData)
+                .then(response => {
+                // Handle the API response here (e.g., show a success message)
+                console.log("API response:", response.data);
+                })
+                .catch(error => {
+                // Handle API request errors (e.g., show an error message)
+                console.error("API request error:", error);
+                });
             },
         }
     }
