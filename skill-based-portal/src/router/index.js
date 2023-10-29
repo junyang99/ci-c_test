@@ -40,7 +40,22 @@ const routes = [
         path: "/View-Application",
         name: "viewApplication",
         component: () => import("../views/staff_view_application.vue")
-    }
+    },
+    {
+        path: "/overallListing-HR",
+        name: "overallListingHR",
+        component: () => import("../views/hr_overall_listing.vue")
+    },
+    {
+        path: "/Role-Listing-HR",
+        name: "roleListingHR",
+        component: () => import("../views/hr_role_listing.vue")
+    },
+    {
+        path: "/New-Listing-HR",
+        name: "newListingHR",
+        component: () => import("../views/hr_new_listing.vue")
+    },
 ]
 
 const router = createRouter({

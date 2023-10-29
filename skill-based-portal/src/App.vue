@@ -24,6 +24,18 @@
           </router-link>
         </li>
 
+        <li class="nav-link">
+          <router-link :to="{ name: 'overallListingHR'}">
+            <a href="./views/hr_overall_listing.vue">HR Role Listing</a>
+          </router-link>
+        </li>
+
+        <li class="nav-link">
+          <router-link :to="{ name: 'newListingHR'}">
+            <a href="./views/hr_new_listing.vue">HR New Listing</a>
+          </router-link>
+        </li>
+
         <div class="left-align">
           <div class="toggle">
             <label for="switch" class="toggle-label"> Staff Mode </label>
