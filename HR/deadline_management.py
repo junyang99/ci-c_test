@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from sqlalchemy import and_
+from sqlalchemy import and_, or_
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+mysqlconnector://root:root@localhost:3306/hr portal"
@@ -47,12 +47,33 @@ def field_check(field):
 
 # function works as expected
 
+# OLD
+# def date_check(starting_date, ending_date):
+#     today = datetime.now().date()
+#     min_length = 10
 
-def date_check(starting_date, ending_date):
+#     # Parse starting_date and ending_date strings to datetime.date objects
+#     starting_date = datetime.strptime(starting_date, '%Y-%m-%d').date()
+#     ending_date = datetime.strptime(ending_date, '%Y-%m-%d').date()
+
+#     if starting_date == "" or ending_date == "":
+#         return "Missing fields"
+#     elif len(str(starting_date)) < min_length or len(str(ending_date)) < min_length:
+#         return "Need to input at least " + str(min_length) + " letters"
+
+#     # Check if ending_date has passed today's date
+#     if ending_date < today:
+#         return "Ending date has passed"
+#     # Check if ending_date is earlier than starting_date
+#     elif ending_date < starting_date:
+#         return "Ending date is earlier than starting date"
+#     return None
+
+
+def date_check(starting_date, ending_date, role_name):
     today = datetime.now().date()
     min_length = 10
 
-    # Parse starting_date and ending_date strings to datetime.date objects
     starting_date = datetime.strptime(starting_date, '%Y-%m-%d').date()
     ending_date = datetime.strptime(ending_date, '%Y-%m-%d').date()
 
@@ -61,12 +82,33 @@ def date_check(starting_date, ending_date):
     elif len(str(starting_date)) < min_length or len(str(ending_date)) < min_length:
         return "Need to input at least " + str(min_length) + " letters"
 
+    # Check if starting date has passed
+    if starting_date < today:
+        return "Starting date has passed"
+
     # Check if ending_date has passed today's date
     if ending_date < today:
         return "Ending date has passed"
     # Check if ending_date is earlier than starting_date
     elif ending_date < starting_date:
         return "Ending date is earlier than starting date"
+
+    # Check if there are any existing positions with overlapping dates for the same role name
+    existing_positions = Open_position.query.filter(
+        Open_position.Role_Name == role_name,
+        or_(
+            and_(Open_position.Starting_Date <= starting_date,
+                 Open_position.Ending_Date >= starting_date),
+            and_(Open_position.Starting_Date <= ending_date,
+                 Open_position.Ending_Date >= ending_date),
+            and_(Open_position.Starting_Date >= starting_date,
+                 Open_position.Ending_Date <= ending_date)
+        )
+    ).all()
+
+    if existing_positions:
+        return "Dates overlap with existing positions for the same role name"
+
     return None
 
 
@@ -106,7 +148,7 @@ def create_position():
             if role_error:
                 fields_error['role_name'] = role_error
 
-            date_error = date_check(Starting_Date, Ending_Date)
+            date_error = date_check(Starting_Date, Ending_Date, Role_Name)
             if date_error:
                 fields_error['date_error'] = date_error
 
