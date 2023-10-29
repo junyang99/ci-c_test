@@ -141,5 +141,5 @@
 </script>
 
 <style @scoped>
-    @import '@/assets/styling/role_application.css';
+    @import '@/assets/styling/staff_role_application.css';
 </style>

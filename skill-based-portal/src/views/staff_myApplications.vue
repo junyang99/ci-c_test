@@ -102,5 +102,5 @@
     }
 </script>
 <style scoped>
-    @import '@/assets/styling/overall_application.css';
+    @import '@/assets/styling/staff_overall_application.css';
 </style>

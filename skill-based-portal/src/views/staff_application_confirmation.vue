@@ -68,5 +68,5 @@
 </script>
 
 <style @scoped>
-    @import '@/assets/styling/application_confirmation.css';
+    @import '@/assets/styling/staff_application_confirmation.css';
 </style>

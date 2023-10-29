@@ -126,7 +126,7 @@
 </script>
 
 <style scoped>
-    @import '@/assets/styling/profile.css';
-    @import '@/assets/styling/view_application.css';
-    @import '@/assets/styling/role_listing.css';
+    @import '@/assets/styling/staff_profile.css';
+    @import '@/assets/styling/staff_view_application.css';
+    @import '@/assets/styling/staff_role_listing.css';
 </style>

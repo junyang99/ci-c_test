@@ -79,9 +79,9 @@ export default {
 <style>
   @import 'assets/styling/nav.css';
   @import 'assets/styling/styles.css';
-  @import 'assets/styling/search.css';
-  @import 'assets/styling/filter.css';
-  @import 'assets/styling/overall_listing.css';
-  @import 'assets/styling/role_listing.css';
+  @import 'assets/styling/staff_search.css';
+  @import 'assets/styling/staff_filter.css';
+  @import 'assets/styling/staff_overall_listing.css';
+  @import 'assets/styling/staff_role_listing.css';
   @import url('https://unicons.iconscout.com/release/v4.0.0/css/line.css');
 </style>

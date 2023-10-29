@@ -165,5 +165,5 @@
 </script>
 
 <style @scoped>
-    @import '@/assets/styling/overall_listing.css';
+    @import '@/assets/styling/staff_overall_listing.css';
 </style>
