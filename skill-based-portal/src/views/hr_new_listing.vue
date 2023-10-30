@@ -166,11 +166,18 @@ import axios from 'axios'
                 .then(response => {
                 // Handle the API response here (e.g., show a success message)
                 console.log("API response:", response.data);
+                    window.alert("Role created successfully!");
                 })
                 .catch(error => {
                 // Handle API request errors (e.g., show an error message)
-                console.error("API request error:", error);
-                });
+                    if (error.response && error.response.status === 400 && error.response.data.message) {
+                        // Handle the 400 Bad Request error with an error message
+                        window.alert("Error creating role: " + error.response.data.message);
+                    } else {
+                        // Handle other errors
+                        window.alert("Error creating role: " + error.message);
+                    }
+                    });
             },
         }
     }
