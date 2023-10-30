@@ -47,8 +47,11 @@
                                 :options="departments"
                                 :close-on-select="false"
                                 :multiple="true"
-                                placeholder="Select Department">
+                                placeholder="Select Department"
+                                @click="filterRoles">
                             </VueMultiselect>
+
+                            <!-- <button @click="filterRoles">Test</button> -->
                             
                         </div>
                     </div>
@@ -91,16 +94,24 @@
 
 <script>
     import axios from 'axios';
-    import { handleDropdown } from "../assets/js/dropdown.js";
+    // import { handleDropdown } from "../assets/js/dropdown.js";
     import VueMultiselect from 'vue-multiselect'
 
     export default {
         name: 'overallListing',
         methods: {
-            handleDropdown,
+            // handleDropdown,
+            // Function to format the date string without the time
+            formatDate(dateString) {
+                if (!dateString || dateString === 'null') {
+                    return 'N/A'; // Handle cases where the date is null or empty
+                }
+                const date = new Date(dateString);
+                return date.toLocaleDateString(); // Convert the date to a locale string
+            },
             async searchRoles() {
                 const url = "http://127.0.0.1:5006/Open_Position/Search";
-                console.log(this.cardData);
+                // console.log(this.cardData);
                 try {
                     const response = await axios.get(url, {
                             params: {
@@ -110,7 +121,7 @@
                     
                     console.log(response);
                     if (response.status === 200) {
-                        console.log("testing");
+                        console.log("testing search");
                         console.log(response.data.data);
                         var openPositions = response.data.data.open_positions;
                         // console.log(openPositions[0]);
@@ -120,7 +131,7 @@
                             let id = openPositions[i].Position_ID;
                             let title = openPositions[i].Role_Name;
                             let department = openPositions[i].Department;
-                            let deadline = openPositions[i].Ending_Date;
+                            let deadline = this.formatDate(openPositions[i].Ending_Date);
                             let description = openPositions[i].Role_Desc;
 
                             filteredData.push({
@@ -134,6 +145,53 @@
 
                         console.log(filteredData);
                         // return filteredData;
+                        this.filteredData = filteredData;
+                    }
+
+
+                } catch (error) {
+                    console.log(error);
+                    console.log("error");
+                }
+            },
+            async filterRoles() {
+                console.log("filter");
+                console.log(this.selectedDepartments);
+                const filterURL = "http://127.0.0.1:5006/Open_Position/Dept"
+                console.log(this.selectedDepartments);
+                let deptParam = this.selectedDepartments.join(",");
+
+                try {
+                    const response = await axios.get(filterURL, {
+                            params: {
+                                departments: deptParam
+                            }
+                    });
+
+                    console.log(response);
+                    if (response.status === 200) {
+                        console.log("testing filter");
+                        console.log(response.data.data);
+                        var openPositions = response.data.data.open_positions;
+                        var filteredData = [];
+                        for (var i = 0; i < openPositions.length; i++) {
+                            console.log(openPositions[i]);
+                            let id = openPositions[i].Position_ID;
+                            let title = openPositions[i].Role_Name;
+                            let department = openPositions[i].Department;
+                            let deadline = this.formatDate(openPositions[i].Ending_Date);
+                            let description = openPositions[i].Role_Desc;
+
+                            filteredData.push({
+                                id: id,
+                                title: title,
+                                department: department,
+                                deadline: deadline,
+                                description: description
+                            })
+                        }
+
+                        console.log(filteredData);
                         this.filteredData = filteredData;
                     }
 
@@ -156,6 +214,8 @@
         data() {
             return {
             searchInput: "",
+            selectedDepartments: [],
+            filteredData: null,
             cardData: [
                 {
                 id: 1,
@@ -205,7 +265,6 @@
                 description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                 },
             ],
-            selectedDepartments: null,
 
             departments: [
                 // {name: 'Chairman', code: 'CH'},
@@ -231,7 +290,9 @@
         },
         computed: {
             filteredCardData() {
-                if (this.searchInput) {
+                if (this.searchInput || this.selectedDepartments.length > 0) {
+                    console.log("returning filteredData");
+                    console.log(this.filteredData);
                     return this.filteredData;
                 } else {
                     return this.cardData;
