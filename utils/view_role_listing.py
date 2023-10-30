@@ -139,5 +139,42 @@ def get_role_listing():
         'message': 'No role listing selected or no staff ID found.'
     }), 400
 
+@app.route('/All_Role_Listing', methods=['GET'])
+def get_all_role_listing():
+    role_listing = Open_Position.query.all()
+
+    if role_listing:
+        # Create a list to store the joined data
+        joined_data = []
+
+        for role_listing_item in role_listing:
+            # Find the corresponding Role object by Role_Name
+            role = Role.query.filter_by(Role_Name=role_listing_item.Role_Name).first()
+
+            if role:
+                data = {
+                    "Ending_Date": role_listing_item.Ending_Date,
+                    "Position_ID": role_listing_item.Position_ID,
+                    "Role_Name": role_listing_item.Role_Name,
+                    "Starting_Date": role_listing_item.Starting_Date,
+                    "Role_Desc": role.Role_Desc,  
+                    "Department": role.Department  
+                }
+                joined_data.append(data)
+
+        return jsonify({
+            'code': 200,
+            'data': {
+                'Role_Listing': joined_data
+            }
+        }), 200
+
+    return jsonify({
+        'code': 404,
+        'message': 'There are no available role listings.'
+    }), 404
+
+
+
 if __name__ == '__main__':
     app.run(port=5013, debug=True)
