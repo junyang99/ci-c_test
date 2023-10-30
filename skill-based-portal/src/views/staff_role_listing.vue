@@ -2,7 +2,6 @@
     <v-app>
         <v-container>
             <div style="padding-top: 80px; padding-bottom: 80px;">
-
                 <div class="container ms-auto">
                     <div class="row">
                     <div class="col">
@@ -65,10 +64,13 @@
 </template>
 
 <script>
+import axios from 'axios';
+
     export default {
         name: 'specificListing',
         mounted() {
             document.title = "All in One";
+            this.title = this.$route.query.roleName;
         },
         created() {
             console.log("working")
@@ -85,7 +87,7 @@
                 description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                 match: 75,
                 skillMatch: ['Audit Frameworks', 'Budgeting', 'Business Acumen'],
-                skillMiss: ['Audit Compliance']
+                skillMiss: ['Audit Compliance'],
                 }
             ],
             };
