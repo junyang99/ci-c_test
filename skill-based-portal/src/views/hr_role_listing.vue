@@ -19,7 +19,7 @@
 
                     <div class="row">
                         <div class="col">
-                            <p class="page-heading">{{ roleData[0].title }}.</p>
+                            <p class="page-heading">{{ roleData[0].role_name }}.</p>
                             <p class="page-subheading">{{ roleData[0].department }} Department</p>
                         </div>
 
@@ -107,29 +107,22 @@
 </template>
 
 <script>
+import axios from 'axios';
     export default {
         name: 'specificListing',
         mounted() {
             document.title = "All in One";
         },
-        created() {
-            console.log("working")
-        },
-
         data() {
             return {
             roleData: [
                 {
-                    id: 1,
-                    title: "Account Manager",
-                    department: "Sales",
-                    deadline: "15 October 2023",
-                    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    skills: ['Audit Frameworks', 'Budgeting', 'Business Acumen'],
-                    startDate: "10 October 2023",
-                    endDate: "20 October 2023",
-                    // startDate: "",
-                    // endDate: ""
+                    role_name: '',
+                    department: '',
+                    description: '',
+                    skills: [],
+                    startDate: '',
+                    endDate: '',
                 }
             ],
 
@@ -141,6 +134,24 @@
                 }
             ]
             };
+        },
+        async created() {
+            try {
+            this.roleName = this.$route.params.roleName; // Assign the value to roleName
+            console.log("Role Name:", this.roleName);
+            const encodedRoleName = encodeURIComponent(this.roleName);
+
+            // Make an API request to fetch data based on this.roleName
+            const axios_url = 'http://localhost:5000/HR/role_admin?role_name='+encodedRoleName+"&exact=true"
+            const response = await axios.get(axios_url);
+
+            // Extract and set the data to roleData and allApplicants
+            this.roleData = response.data.roles; // Assuming the API response has the role details
+            console.log("roleData:",this.roleData);
+            // this.allApplicants = response.data.applicants; // Assuming the API response has a list of applicants
+            } catch (error) {
+            console.error('Failed to fetch data:', error);
+            }
         },
     }
 </script>

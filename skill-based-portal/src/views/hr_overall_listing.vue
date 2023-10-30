@@ -14,10 +14,9 @@
                 <div class="container ms-auto">
                     <div class="search-and-filter row">
                         <div class="col-6">
-        
                             <div class="input-box">
                                 <i class="uil uil-search"></i>
-                                <input type="text" placeholder="Search" />
+                                <input v-model="searchText" type="text" placeholder="Search" />
                             </div>
         
                         </div>
@@ -25,7 +24,7 @@
                         <div class="col-3">
                             <div class="active-check">
                                 <input type="checkbox" id="active" name="active" value="active">
-                                <label for="active">Active</label>
+                                <label for="active">Sort</label>
                             </div>
                         </div>
 
@@ -55,7 +54,7 @@
                     </thead>
 
                     <tbody>
-                        <tr v-for="(role, index) in allRoles" :key="index">
+                        <tr v-for="(role, index) in filteredRoles" :key="index">
                         <td>{{ index + 1 }}</td>
                         <td>{{ role.role_name  }}</td>
                         <td>{{ role.department }}</td>
@@ -63,7 +62,7 @@
                         <td>{{ formatDate(role.end_date) }}</td>
                         <td>{{ role.status }}</td>
                         <td>
-                            <router-link :to="{ name: 'roleListingHR'}">
+                            <router-link :to="{ name: 'roleListingHR', params: { roleName: role.role_name } }">
                                 <img class="table-actions" src="../assets/icons/view.png" />
                                 <!-- <img class="table-actions" src="../assets/icons/view.png" @click="viewApplication(index)" /> -->
                             </router-link>
@@ -93,7 +92,18 @@ import axios from 'axios';
         data() {
             return {
             allRoles: [],
+            searchText: '',
             };
+        },
+        computed: {
+            filteredRoles() {
+            if (this.searchText === '') {
+                return this.allRoles; // Return all roles if search text is empty
+            }
+            return this.allRoles.filter(role => {
+                return role.role_name.toLowerCase().includes(this.searchText.toLowerCase());
+            });
+            },
         },
         methods: {
             // Function to format the date string without the time
@@ -102,7 +112,7 @@ import axios from 'axios';
                     return 'N/A'; // Handle cases where the date is null or empty
                 }
                 const date = new Date(dateString);
-                return date.toLocaleDateString(); // Adjust the format as needed
+                return date.toLocaleDateString(); // Convert the date to a locale string
             },
             fetchRoles() {
                 // Make an HTTP GET request to fetch roles from the API
