@@ -88,7 +88,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 export default {
 data() {
   return {
-    isHRMode: true,
+    isHRMode: false,
     userName: "Alice Tan",
     userRole: "Staff",
   };
