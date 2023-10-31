@@ -7,7 +7,7 @@ from sqlalchemy import and_
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+mysqlconnector://root@localhost:3306/hr portal"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+mysqlconnector://root:root@localhost:3306/hr portal"
 CORS(app)
 db = SQLAlchemy(app)
 
@@ -296,5 +296,5 @@ def update_role():
     }), 400
 
 if __name__ == '__main__':
-    app.run(port = 5000, debug=True)
+    app.run(port = 5777, debug=True)
 

@@ -120,7 +120,7 @@ import axios from 'axios';
             },
             fetchRoles() {
                 // Make an HTTP GET request to fetch roles from the API
-                axios.get('http://localhost:5000/HR/role_admin')
+                axios.get('http://localhost:5777/HR/role_admin')
                     .then(response => {
                         // Extract the roles from the response and set them to allRoles
                         console.log(response.data.roles)
