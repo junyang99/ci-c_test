@@ -48,8 +48,7 @@
                                         :multiple="true"
                                         :taggable="true"
                                         placeholder="Search for a skill"
-                                        label="Role_Desc" 
-                                        track-by="Role_Desc"
+                    
                                         ></VueMultiselect>
                                 </div>
                             </div>

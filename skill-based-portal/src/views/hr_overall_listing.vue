@@ -67,7 +67,7 @@
                                 <!-- <img class="table-actions" src="../assets/icons/view.png" @click="viewApplication(index)" /> -->
                             </router-link>
 
-                            <router-link :to="{ name: 'editListingHR'}">
+                            <router-link :to="{ name: 'editListingHR', params: { roleName: role.role_name } }">
                                 <img class="table-actions" src="../assets/icons/edit.png" />
                             </router-link>
 
