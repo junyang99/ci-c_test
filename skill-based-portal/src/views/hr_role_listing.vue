@@ -24,10 +24,12 @@
                         </div>
 
                         <div class="col">
-                            <button class="application-btn float-end" style="background-color: var(--hr-actions);">
-                                <img src="../assets/icons/edit.svg">
-                                <p>EDIT</p>
-                            </button>
+                            <router-link :to="{ name: 'editListingHR'}">          
+                                <button class="application-btn float-end" style="background-color: var(--hr-actions);">
+                                    <img src="../assets/icons/edit.svg">
+                                    <p>EDIT</p>
+                                </button>
+                            </router-link>
                         </div>
                     </div>
 

@@ -24,23 +24,32 @@
         
                         </div>
         
-                        <div class="col-3">
-                            <div class="select-btn" @click="handleDropdown">
+                        <div class="col-6">
+                            <!-- <div class="select-btn" @click="handleDropdown">
                                 <span class="btn-text">Select Department</span>
                                 <span class="arrow-dwn">
                                     <i class="fa-solid fa-chevron-down"></i>
                                 </span>
-                            </div>
+                            </div> -->
 
-                            <ul class="list-items">
+                            <!-- <ul class="list-items"> -->
                                 <!-- Use v-for to loop through departments and generate list items -->
-                                <li class="item" v-for="(department, index) in departments" :key="index">
+                                <!-- <li class="item" v-for="(department, index) in departments" :key="index">
                                     <span class="checkbox">
                                     <i class="fa-solid fa-check check-icon"></i>
                                     </span>
                                     <span class="item-text">{{ department }}</span>
                                 </li>
-                            </ul>
+                            </ul> -->
+
+                            <VueMultiselect
+                                v-model="selectedDepartments"
+                                :options="departments"
+                                :close-on-select="false"
+                                :multiple="true"
+                                placeholder="Select Department">
+                            </VueMultiselect>
+                            
                         </div>
                     </div>
                 </div>
@@ -83,6 +92,7 @@
 <script>
     import axios from 'axios';
     import { handleDropdown } from "../assets/js/dropdown.js";
+    import VueMultiselect from 'vue-multiselect'
 
     export default {
         name: 'overallListing',
@@ -133,6 +143,9 @@
                     console.log("error");
                 }
             }
+        },
+        components: {
+            VueMultiselect
         },
         mounted() {
             document.title = "All in One";
@@ -192,8 +205,18 @@
                 description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis faucibus est. Proin tristique dolor et tortor venenatis, auctor vestibulum risus consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                 },
             ],
+            selectedDepartments: null,
 
             departments: [
+                // {name: 'Chairman', code: 'CH'},
+                // {name: 'CEO', code: 'CEO'},
+                // {name: 'Sales', code: 'SA'},
+                // {name: 'Engineering', code: 'EN'},
+                // {name: 'HR', code: 'HR'},
+                // {name: 'Finance', code: 'FIN'},
+                // {name: 'Consultancy', code: 'CO'},
+                // {name: 'Solutioning', code: 'SO'},
+                // {name: 'IT', code: 'IT'}
                 "Chairman",
                 "CEO",
                 "Sales",
@@ -202,8 +225,8 @@
                 "Finance",
                 "Consultancy",
                 "Solutioning",
-                "IT",
-            ]
+                "IT"
+            ],
             };
         },
         computed: {
@@ -217,6 +240,8 @@
         }
     }
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
 
 <style @scoped>
     @import '@/assets/styling/staff_overall_listing.css';
