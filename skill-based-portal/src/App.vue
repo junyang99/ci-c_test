@@ -95,10 +95,15 @@ data() {
 },
 
 methods: {
-  updateMode() {
+    updateMode() {
       this.isHRMode = !this.isHRMode;
-  }
-}
+      this.$router.push(this.isHRMode ? { name: 'overallListingHR' } : { name: 'overallListing' });
+    },
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.isHRMode = to.name === 'overallListingHR';
+    next();
+  },
 };
 </script>
 
