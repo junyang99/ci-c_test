@@ -6,7 +6,11 @@
 }
 
 nav {
-    background-color: var(--nav-background);
+    background-color: var(--nav-staff);
+}
+
+.hr-mode {
+    background-color: var(--nav-hr);
 }
 
 ul {
@@ -29,6 +33,18 @@ ul li a {
     color: #FFFFFF;
     font-family: text-regular;
     text-decoration: none;
+}
+
+.staff-links{
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.hr-links{
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
 }
 
 #nav-user {
@@ -80,6 +96,8 @@ ul li a {
     text-align: right;
     vertical-align: middle;
 } */
+
+
 
 /* TOGGLE */
 
