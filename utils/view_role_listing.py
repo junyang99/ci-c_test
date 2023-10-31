@@ -80,8 +80,11 @@ class Role_Skill(db.Model):
 # specific role listings
 @app.route('/Role_Listing', methods=['GET'])
 def get_role_listing():
-    position_id = request.get_json()['position_id'] # input format -- {"position_id": position_id, "staff_id": staff_id}
-    staff_id = request.get_json()['staff_id']
+    # position_id = request.get_json()['position_id'] # input format -- {"position_id": position_id, "staff_id": staff_id}
+    # staff_id = request.get_json()['staff_id']
+
+    position_id = request.args.get('position_id')
+    staff_id = request.args.get('staff_id')
 
     if position_id and staff_id:
         # get row from Open_Position table

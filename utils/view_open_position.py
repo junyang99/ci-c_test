@@ -72,7 +72,8 @@ def get_all():
 # get open roles based on selected department
 @app.route('/Open_Position/Dept', methods=['GET'])
 def get_open_roles_for_dept():
-    department_names = request.get_json()['departments'] # input format -- {"departments": [dept1, dept2]}
+    # department_names = request.get_json()['departments'] # input format -- {"departments": [dept1, dept2]}
+    department_names = request.args.get('departments')
 
     if department_names:
         response = get_all()
@@ -87,14 +88,14 @@ def get_open_roles_for_dept():
                 opening_role_info = Role.query.filter_by(Role_Name = opening_role_name).first() # match Role_Name in Role table to get the other data
 
                 if opening_role_info.Department in department_names: # check if the opening is part of the departments selected in the filter
-                    filtered_open_positions.append(opening)
+                    filtered_open_positions.append({"Ending_Date": opening["Ending_Date"], "Position_ID": opening["Position_ID"], "Role_Name": opening["Role_Name"], "Starting_Date": opening["Starting_Date"], "Department": opening_role_info.Department, "Role_Desc": opening_role_info.Role_Desc})
 
             if filtered_open_positions:
                 return jsonify({
                     'code': 200,
                     'data':
                         {
-                            'open positions': [listing for listing in filtered_open_positions]
+                            'open_positions': [listing for listing in filtered_open_positions]
                         }
                 })
         
@@ -116,7 +117,8 @@ def get_open_roles_for_dept():
 # search function 
 @app.route('/Open_Position/Search', methods=['GET'])
 def search_for_roles():
-    keyword = request.get_json()['search_input'] # input format -- {"search_input": keyword}
+    # keyword = request.get_json()['search_input'] # input format -- {"search_input": keyword}
+    keyword = request.args.get('search_input')
     
     if keyword:
         response = get_all()
@@ -131,7 +133,7 @@ def search_for_roles():
                 opening_role_info = Role.query.filter_by(Role_Name = opening_role_name).first()
 
                 if keyword.lower() in opening_role_name.lower() or keyword.lower() in opening_role_info.Role_Desc.lower():
-                    matching_open_positions.append(opening)
+                    matching_open_positions.append({"Ending_Date": opening["Ending_Date"], "Position_ID": opening["Position_ID"], "Role_Name": opening["Role_Name"], "Starting_Date": opening["Starting_Date"], "Department": opening_role_info.Department, "Role_Desc": opening_role_info.Role_Desc})
 
                 
             if matching_open_positions:
@@ -139,7 +141,7 @@ def search_for_roles():
                     'code': 200,
                     'data':
                         {
-                            'open positions': [listing for listing in matching_open_positions]
+                            'open_positions': [listing for listing in matching_open_positions]
                         }
                 })
         
