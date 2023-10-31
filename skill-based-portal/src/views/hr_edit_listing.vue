@@ -7,7 +7,7 @@
                         
                         <br><br>
 
-                        <p class="page-heading">New Role Listing</p>
+                        <p class="page-heading">Edit Role Listing</p>
                     </div>
 
                     <br>
@@ -17,14 +17,14 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="role_name">Role Name:</label>
-                                    <input type="text" name="role_name" id="role_name" placeholder="Role Name" />
+                                    <input type="text" name="role_name" id="role_name" v-model="input.roleName" /> 
                                 </div>
                             </div>
 
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="new_department">Department:</label>
-                                    <input type="text" name="new_department" id="new_department" placeholder="Department" />
+                                    <input type="text" name="new_department" id="new_department" v-model="input.department" />
                                 </div>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="role_description">Role Description:</label>
-                                    <textarea name="role_description" id="role_description" cols="30" rows="8"></textarea>
+                                    <textarea name="role_description" id="role_description" cols="30" rows="8" v-model="input.roleDescription"></textarea>
                                 </div>
                             </div>
 
@@ -51,7 +51,7 @@
                                         label="name"
                                         track-by="code"
                                         >
-                                </VueMultiselect>
+                                    </VueMultiselect>
                                 </div>
                             </div>
                         </div>
@@ -62,14 +62,14 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="start_date">Start Date:</label>
-                                    <input type="date" name="start_date" id="start_date" />
+                                    <input type="date" name="start_date" id="start_date" v-model="input.startDate"/>
                                 </div>
                             </div>
 
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="end_date">End Date:</label>
-                                    <input type="date" name="end_date" id="end_date" />
+                                    <input type="date" name="end_date" id="end_date" v-model="input.endDate"/>
                                 </div>
                             </div>
                         </div>
@@ -77,13 +77,14 @@
                         <br /><br />
                         
                         <div class="d-flex">
-                            <router-link :to="{ name: 'createConfirmation'}">
+                            <router-link :to="{ name: 'overallListingHR'}">
                                 <button class="submit-btn">
                                     SAVE
                                 </button>
                             </router-link>
 
-                            <router-link :to="{ name: 'overallListingHR'}">
+                            <!-- joel where do u want this to lead back to? the specific role listing can? -->
+                            <router-link :to="{ name: 'roleListingHR'}">
                                 <button class="cancel-btn">
                                     CANCEL
                                 </button>
@@ -114,13 +115,25 @@ import VueMultiselect from 'vue-multiselect'
         data() {
             return {
                 selected: [
-                    { name: 'Audit Compliance', code: 'Audit Compliance' }
+                    { name: 'Audit Compliance', code: 'Audit Compliance' },
+                    { name: 'Audit Frameworks', code: 'Audit Frameworks' },
+                    { name: 'Budgeting', code: 'Budgeting' }
                 ],
                 options: [
                     { name: 'Audit Compliance', code: 'Audit Compliance' },
                     { name: 'Audit Frameworks', code: 'Audit Frameworks' },
                     { name: 'Budgeting', code: 'Budgeting' }
-                ]
+                ],
+                input: {
+                    roleName: 'Account Manager',
+                    department: 'Sales',
+                    roleDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl vitae aliquam ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae aliquam ultricies, nunc nisl ultricies nunc, vitae aliquam nisl',
+                    requiredSkills: ['Audit Frameworks', 'Budgeting', 'Business Acumen'],
+                    
+                    // joel plz take note i need the input dates like this for it to display properly
+                    startDate: '2023-10-10',
+                    endDate: '2023-10-20',
+                }
             };
         },
 
