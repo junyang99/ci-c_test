@@ -132,29 +132,19 @@ def get_all():
         'message': 'There is no records of applicant'
     }
     
-# @app.route('/application/<string:Application_ID>')
-# def get_application(Application_ID):
-#     application = application.query.filter_by(
-#         Application_ID=Application_ID).first()
-#     if application:
-#         if application.quantity != 0:
-#             return jsonify({
-#                 'code': 200,
-#                 'application': application.json()
-#             }
-#             )
-#         else:
-#             return jsonify({
-#                 'code': 200,
-#                 'message': 'application does not exist.',
-#                 "application": application.json()
-#             }
-#             )
-#     return jsonify(
-#         {
-#             'code': 404,
-#             'message': 'application not found'
-#         }), 404
+@app.route('/Application/<int:Position_ID>')
+def get_application(Position_ID):
+    applications = Application.query.filter_by(Position_ID=Position_ID).all()
+    if applications:
+        application_data = [application.json() for application in applications]
+        return jsonify({
+            'code': 200,
+            'applications': application_data
+        })
+    return jsonify({
+        'code': 404,
+        'message': 'No applications found for the specified Position_ID'
+    }), 404
 
 if __name__ == '__main__':
     app.run(port=5004, debug=True)
