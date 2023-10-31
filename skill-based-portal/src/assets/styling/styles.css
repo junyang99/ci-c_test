@@ -37,6 +37,9 @@ body {
 
 :root {
     --nav-background: rgba(0, 0, 0, 0.73);
+    --nav-staff: rgba(65, 33, 124, 0.73);
+    --nav-hr: rgba(51, 135, 43, 0.73);
+
     --default-black: #000000;
     --default-white: #FFFFFF;
 

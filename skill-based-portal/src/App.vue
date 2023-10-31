@@ -1,74 +1,82 @@
 <template>
   <div id="app">
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+      <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+          <nav :class="{ 'hr-mode': isHRMode }">
+            <ul style="margin-bottom: 0;">
+                <li> <img src="@/assets/logo.png" class="logo"> </li>
 
-    <nav>
-      <ul style="margin-bottom: 0;">
-        <li> <img src="@/assets/logo.png" class="logo"> </li>
+                <div class="staff-links" v-if="!isHRMode">
 
-        <li class="nav-link">
-          <router-link :to="{ name: 'overallListing'}">
-            <a href="./views/overall_listing.vue">Role Listing</a>
-          </router-link>
-        </li>
+                    <li class="nav-link">
+                    <router-link :to="{ name: 'overallListing'}">
+                        <a href="./views/overall_listing.vue">Role Listing</a>
+                    </router-link>
+                    </li>
 
-        <li class="nav-link">
-          <router-link :to="{ name: 'myApplications'}">
-            <a href="./views/myApplications.vue">My Applications</a>
-          </router-link>
-        </li>
+                    <li class="nav-link">
+                    <router-link :to="{ name: 'myApplications'}">
+                        <a href="./views/myApplications.vue">My Applications</a>
+                    </router-link>
+                    </li>
 
-        <li class="nav-link">
-          <router-link :to="{ name: 'myProfile'}">
-            <a href="./views/myProfile.vue">My Profile</a>
-          </router-link>
-        </li>
+                    <li class="nav-link">
+                    <router-link :to="{ name: 'myProfile'}">
+                        <a href="./views/myProfile.vue">My Profile</a>
+                    </router-link>
+                    </li>
 
-        <li class="nav-link">
-          <router-link :to="{ name: 'overallListingHR'}">
-            <a href="./views/hr_overall_listing.vue">HR Role Listing</a>
-          </router-link>
-        </li>
+                </div>
 
-        <li class="nav-link">
-          <router-link :to="{ name: 'newListingHR'}">
-            <a href="./views/hr_new_listing.vue">HR New Listing</a>
-          </router-link>
-        </li>
 
-        <div class="left-align">
-          <div class="toggle">
-            <label for="switch" class="toggle-label"> Staff Mode </label>
+                <div class="hr-links" v-else>
 
-            <label class="switch">
-              <input type="checkbox" name="switch">
-              <span class="slider round"></span>
-            </label>
+                    <li class="nav-link">
+                    <router-link :to="{ name: 'overallListingHR'}">
+                        <a href="./views/hr_overall_listing.vue">HR Role Listing</a>
+                    </router-link>
+                    </li>
 
-            <label for="switch" class="toggle-label"> HR Mode </label>
+                    <li class="nav-link">
+                    <router-link :to="{ name: 'newListingHR'}">
+                        <a href="./views/hr_new_listing.vue">New Listing</a>
+                    </router-link>
+                    </li>
 
-          </div>
+                </div>
 
-          <div id="nav-user">
-            <li id="nav-user">
-              <img src="@/assets/icons/user.png" style="height: 40px; width: auto;">
-            </li>
+                <div class="left-align">
+                <div class="toggle">
+                    <label for="switch" class="toggle-label"> Staff Mode </label>
 
-            <li id="nav-user">
-              <div> {{ userName }} </div>
-              <div> {{ userRole }} </div>
-            </li>
-          </div>
-        </div>
-        
-      </ul>
-    </nav>
+                    <label class="switch">
+                    <input type="checkbox" name="switch" v-model="isHRMode" @click="updateMode">
+                    <span class="slider round"></span>
+                    </label>
 
-    <main>
+                    <label for="switch" class="toggle-label"> HR Mode </label>
+
+                </div>
+
+                <div id="nav-user">
+                    <li id="nav-user">
+                    <img src="@/assets/icons/user.png" style="height: 40px; width: auto;">
+                    </li>
+
+                    <li id="nav-user">
+                    <div> {{ userName }} </div>
+                    <div> {{ userRole }} </div>
+                    </li>
+                </div>
+                </div>
+                
+            </ul>
+          </nav>
+
+      <main>
       <div>
-        <router-view></router-view>
+          <router-view></router-view>
       </div>
-    </main>
+      </main>
   </div>
 </template>
 
@@ -78,13 +86,19 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import '@fortawesome/fontawesome-free/css/all.css';
 
 export default {
-  name: "App",
-  data() {
-    return {
-      userName: "Alice Tan",
-      userRole: "Staff",
-    };
-  },
+data() {
+  return {
+    isHRMode: true,
+    userName: "Alice Tan",
+    userRole: "Staff",
+  };
+},
+
+methods: {
+  updateMode() {
+      this.isHRMode = !this.isHRMode;
+  }
+}
 };
 </script>
 
