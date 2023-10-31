@@ -24,7 +24,7 @@
                         <div class="col-3">
                             <div class="active-check">
                                 <input type="checkbox" id="active" name="active" value="active">
-                                <label for="active">Sort</label>
+                                <label for="active">Active</label>
                             </div>
                         </div>
 
