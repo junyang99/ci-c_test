@@ -70,7 +70,35 @@ import axios from 'axios';
         name: 'specificListing',
         mounted() {
             document.title = "All in One";
-            this.title = this.$route.query.roleName;
+            axios.get('http://localhost:5013/Role_Listing', {
+                params: {
+                    position_id: this.$route.query.id,
+                    staff_id: 140001
+                }
+            })
+            .then(response => {
+                console.log(response.data.data);
+                var data = response.data.data;
+                this.roleData[0].id = this.$route.query.id;
+                // console.log(data.Role_Name);
+                this.roleData[0].title = data.Role_Name;
+                this.roleData[0].department = data.Department;
+                this.roleData[0].deadline = data.Ending_Date;
+                this.roleData[0].description = data.Role_Desc;
+                this.roleData[0].match = data['Role-Skill Match'].data.percentage_match;
+                this.roleData[0].match = Math.round(this.roleData[0].match);
+
+                // var role_skill = data['Required Skills for Role'];
+                var role_skills = data['Required Skills for Role'].map(skill => skill.Skill_Name);
+                var staff_skills = data['Staff Skills']['data']['Staff-Skill'].map(skill => skill.Skill_Name);
+
+
+                this.roleData[0].skillMatch = role_skills.filter(skill => staff_skills.includes(skill));
+                this.roleData[0].skillMiss = role_skills.filter(skill => !staff_skills.includes(skill));
+
+                
+
+            })
         },
         created() {
             console.log("working")

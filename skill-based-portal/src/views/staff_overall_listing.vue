@@ -73,7 +73,7 @@
                                         <p class="card-subheading">{{ card.department }}</p>
                                         <p class="card-deadline">Deadline: {{ card.deadline }}</p>
                                         <p class="card-description">{{ card.description }}</p>
-                                        <router-link :to="{ name: 'roleListing', query: { roleName: card.title } }">
+                                        <router-link :to="{ name: 'roleListing', query: { id: card.id } }">
                                             <button class="card-find-btn">Find Out More</button>
                                         </router-link>
                                         <router-link :to="{ name: 'roleApplication', params: { id: card.id } }">
