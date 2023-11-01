@@ -61,6 +61,16 @@ const routes = [
         name: "viewApplicationHR",
         component: () => import("../views/hr_view_application.vue")
     },
+    {
+        path: "/Edit-Listing-HR",
+        name: "editListingHR",
+        component: () => import("../views/hr_edit_listing.vue")
+    },
+    {
+        path: "/Create-Confirmation",
+        name: "createConfirmation",
+        component: () => import("../views/hr_create_confirmation.vue")
+    },
 ]
 
 const router = createRouter({

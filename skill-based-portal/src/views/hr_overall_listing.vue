@@ -67,7 +67,11 @@
                                 <img class="table-actions" src="../assets/icons/view.png" />
                                 <!-- <img class="table-actions" src="../assets/icons/view.png" @click="viewApplication(index)" /> -->
                             </router-link>
-                            <img class="table-actions" src="../assets/icons/edit.png" />
+
+                            <router-link :to="{ name: 'editListingHR'}">
+                                <img class="table-actions" src="../assets/icons/edit.png" />
+                            </router-link>
+
                             <img class="table-actions" src="../assets/icons/delete.png" />
                         </td>
                         </tr>
