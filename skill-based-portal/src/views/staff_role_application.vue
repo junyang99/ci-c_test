@@ -108,36 +108,53 @@
 </template>
 
 <script>
-
-    export default {
-        name: 'roleApplication',
-        mounted() {
-            document.title = "All in One";
+import axios from 'axios';
+export default {
+    name: 'roleApplication',
+    methods: {
+        getResponse(){
+            const path = 'http://127.0.0.1:5000/Role-Application';
+            axios.get(path)
+            .then ((res) => {
+                console.log(res.data)
+                this.applicationData = res.data;
+            })
+            .catch ((err) => {
+                console.error(err);
+            });
         },
-        created() {
-            console.log("working")
-        },
+    },
+    mounted() {
+        console.log("mounted")
+        this.getResponse();
+        document.title = "All in One";
+    },
+    created() {
+        console.log("created")
+        this.getResponse();
+        console.log("working")
+    },
 
-        data() {
-            return {
-            applicationData: [
-                {
-                id: 1,
-                title: "Account Manager",
-                department: "Sales",
+    data() {
+        return {
+        applicationData: [
+            {
+                id: '',
+                title: '',
+                department: '',
+                staffID: '',
+                staffName: '',
+                staffEmail: '',
+                staffCountry: '',
+                staffDepartment: '',
+                staffRole: '',
+                staffSkills: '',
+            }
+        ],
+        };
+    },
 
-                staffID: "000123",
-                staffName: "Account Manager",
-                staffEmail: "alice@gmail.com",
-                staffCountry: "Singapore",
-                staffDepartment: "Marketing",
-                staffRole: "Content Strategist",
-                staffSkills: ['Audit Frameworks', 'Budgeting', 'Business Acumen']
-                }
-            ],
-            };
-        },
-    }
+}
 </script>
 
 <style @scoped>
