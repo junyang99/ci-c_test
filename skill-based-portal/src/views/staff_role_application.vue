@@ -70,7 +70,7 @@
                             <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="cover_letter">Cover Letter (optional):</label>
-                                <textarea name="cover_letter" id="cover_letter" cols="30" rows="8"></textarea>
+                                <textarea v-model="coverLetter" name="cover_letter" id="cover_letter" cols="30" rows="8"></textarea>
                             </div>
                             </div>
 
@@ -89,7 +89,7 @@
                         
                         <div class="d-flex">
                             <router-link :to="{ name: 'applicationConfirmation'}">
-                                <button class="submit-btn">
+                                <button class="submit-btn" @click="sendCoverLetter">
                                     SUBMIT
                                 </button>
                             </router-link>
@@ -111,6 +111,7 @@
 import axios from 'axios';
 export default {
     name: 'roleApplication',
+    props: ['applications'],
     methods: {
         getResponse(){
             const path = 'http://127.0.0.1:5000/Role-Application';
@@ -123,6 +124,23 @@ export default {
                 console.error(err);
             });
         },
+        
+        sendCoverLetter() {
+            console.log("sending cover letter")
+            // Send the cover letter text to the Python backend
+            axios.post('http://127.0.0.1:5000/api/send-cover-letter', { coverLetter: this.coverLetter })
+                .then(response => {
+                // Handle the response from the Python backend
+                const successMessage = response.data.message; // Access the message property
+                console.log('Response from Python:', successMessage);
+                console.log(this.coverLetter)
+                console.log('Cover Letter sent to Python:', response.data);
+                })
+                .catch(error => {
+                // Handle errors
+                console.error('Error sending Cover Letter to Python:', error);
+                });
+            },
     },
     mounted() {
         console.log("mounted")

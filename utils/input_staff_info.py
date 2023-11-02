@@ -60,6 +60,21 @@ def roleApplication():
     ]
     return jsonify(sample_data)
 
+@app.route('/api/send-cover-letter', methods=['POST', 'GET'])
+def receive_cover_letter():
+    # return ("received")
+    data = request.get_json()
+    cover_letter = data.get('coverLetter')
+    # Process the received cover letter as needed
+    cursor.execute('''
+            INSERT INTO application
+            (Application_ID, Position_ID, Staff_ID, Application_Date, Cover_Letter, Application_Status)
+            VALUES (1, 1, %s, NOW(), %s, 1)
+        ''', ("1", cover_letter))
+    conn.commit()
+
+    return jsonify({'message': 'Cover Letter received and processed successfully'})
+
 # @app.route('/')
 # def index():
 #     # Prepopulate sample data
@@ -73,7 +88,7 @@ def roleApplication():
     
 #     return render_template('index.html', sample_data=sample_data)
 
-@app.route('/submit', methods=['POST'])
+@app.route('/submit', methods=['POST', 'GET'])
 def submit():
     staff_id = request.form.get('staff_id')
     staff_fname = request.form.get('staff_fname')
@@ -151,8 +166,6 @@ def view_staff(staff_id):
         # Close the cursor and the connection
         cursor.close()
         conn.close()
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)
